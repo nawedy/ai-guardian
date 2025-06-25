@@ -13,6 +13,7 @@ click==8.2.1
 SQLAlchemy==2.0.41
 greenlet==3.2.3
 peewee==3.18.1
+psycopg2-binary==2.9.10
 
 # HTTP Requests and Networking
 requests==2.32.4
