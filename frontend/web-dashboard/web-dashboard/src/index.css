@@ -1,19 +1,67 @@
 @import "tailwindcss";
 
-/* Base styles for the application */
+/* Dark mode color scheme with neutral backgrounds and yellow/orange accents */
 :root {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --card: 224 71% 4%;
-  --card-foreground: 213 31% 91%;
-  --primary: 210 40% 98%;
-  --secondary: 215 28% 17%;
-  --muted: 215 28% 17%;
-  --border: 215 28% 17%;
+  /* Background Colors - Dark Mode Default */
+  --background: 220 9% 5%;           /* neutral-950 equivalent */
+  --background-secondary: 220 9% 9%; /* neutral-900 equivalent */
+  --background-tertiary: 220 7% 15%; /* neutral-800 equivalent */
+  
+  /* Foreground/Text Colors */
+  --foreground: 220 15% 95%;         /* neutral-50 for primary text */
+  --foreground-muted: 220 9% 65%;    /* neutral-400 for secondary text */
+  --foreground-subtle: 220 9% 45%;   /* neutral-500 for subtle text */
+  
+  /* Card & Component Colors */
+  --card: 220 9% 9%;                 /* neutral-900 for cards */
+  --card-foreground: 220 15% 95%;    /* neutral-50 for card text */
+  
+  /* Accent Colors */
+  --primary: 45 93% 47%;             /* yellow-500 */
+  --primary-foreground: 220 9% 5%;   /* neutral-950 for contrast */
+  --secondary: 25 95% 53%;           /* orange-500 */
+  --secondary-foreground: 220 9% 5%; /* neutral-950 for contrast */
+  
+  /* Interactive Elements */
+  --muted: 220 7% 15%;               /* neutral-800 for muted backgrounds */
+  --muted-foreground: 220 9% 65%;    /* neutral-400 for muted text */
+  --border: 220 7% 20%;              /* neutral-800 for borders */
+  
+  /* Alert Colors */
+  --success: 142 76% 36%;            /* emerald-600 */
+  --success-foreground: 220 15% 95%; /* neutral-50 */
+  --warning: 45 93% 47%;             /* yellow-500 */
+  --warning-foreground: 220 9% 5%;   /* neutral-950 */
+  --error: 0 84% 60%;                /* red-500 */
+  --error-foreground: 220 15% 95%;   /* neutral-50 */
+  --info: 217 91% 60%;               /* blue-500 */
+  --info-foreground: 220 15% 95%;    /* neutral-50 */
 }
 
+/* Light mode override (for future use) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: 0 0% 100%;
+    --background-secondary: 220 15% 96%;
+    --background-tertiary: 220 13% 91%;
+    --foreground: 220 9% 9%;
+    --foreground-muted: 220 9% 45%;
+    --foreground-subtle: 220 9% 65%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 9% 9%;
+    --muted: 220 13% 91%;
+    --muted-foreground: 220 9% 45%;
+    --border: 220 13% 91%;
+  }
+}
+
+/* Base styles */
 * {
   box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
@@ -21,12 +69,84 @@ body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #0f0f23;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+/* Custom utility classes for the AI Guardian theme */
+.bg-app-primary {
+  background-color: hsl(var(--background));
+}
+
+.bg-app-secondary {
+  background-color: hsl(var(--background-secondary));
+}
+
+.bg-app-tertiary {
+  background-color: hsl(var(--background-tertiary));
+}
+
+.bg-app-card {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
+}
+
+.text-app-primary {
+  color: hsl(var(--foreground));
+}
+
+.text-app-secondary {
+  color: hsl(var(--foreground-muted));
+}
+
+.text-app-subtle {
+  color: hsl(var(--foreground-subtle));
+}
+
+.accent-primary {
+  color: hsl(var(--primary));
+}
+
+.accent-secondary {
+  color: hsl(var(--secondary));
+}
+
+.bg-accent-primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.bg-accent-secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+/* Alert variants */
+.alert-success {
+  background-color: hsl(var(--success) / 0.1);
+  border-color: hsl(var(--success) / 0.3);
+  color: hsl(var(--success));
+}
+
+.alert-warning {
+  background-color: hsl(var(--warning) / 0.1);
+  border-color: hsl(var(--warning) / 0.3);
+  color: hsl(var(--warning-foreground));
+}
+
+.alert-error {
+  background-color: hsl(var(--error) / 0.1);
+  border-color: hsl(var(--error) / 0.3);
+  color: hsl(var(--error));
+}
+
+.alert-info {
+  background-color: hsl(var(--info) / 0.1);
+  border-color: hsl(var(--info) / 0.3);
+  color: hsl(var(--info));
 }

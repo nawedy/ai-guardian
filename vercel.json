@@ -1,10 +1,4 @@
 {
-  "projects": [
-    {
-      "source": "frontend/web-dashboard/web-dashboard",
-      "outputDirectory": "frontend/web-dashboard/web-dashboard/dist"
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
@@ -13,5 +7,6 @@
   ],
   "installCommand": "cd frontend/web-dashboard/web-dashboard && pnpm install",
   "buildCommand": "cd frontend/web-dashboard/web-dashboard && pnpm run build",
+  "outputDirectory": "frontend/web-dashboard/web-dashboard/dist",
   "framework": "vite"
 } 

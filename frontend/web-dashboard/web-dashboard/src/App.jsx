@@ -115,7 +115,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex h-screen bg-gray-50">
+      <div className="flex h-screen bg-app-primary">
         <Sidebar
           navigationItems={navigationItems}
           collapsed={sidebarCollapsed}
@@ -124,7 +124,7 @@ function App() {
         />
         
         <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-          <div className="h-full overflow-auto">
+          <div className="h-full overflow-auto bg-app-primary">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route 
