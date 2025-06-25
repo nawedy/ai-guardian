@@ -79,20 +79,47 @@
     --app-info: 220 70% 50%;
   }
 
-  /* Set dark mode as default */
+  /* Base element styling with proper contrast */
   * {
     border-color: hsl(var(--border));
+  }
+
+  html {
+    color-scheme: dark;
   }
 
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-family: var(--font-inter);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  /* Ensure all text elements have proper contrast */
+  h1, h2, h3, h4, h5, h6 {
+    color: hsl(var(--foreground));
+  }
+
+  p, span, div {
+    color: hsl(var(--foreground));
   }
 
   /* Code and monospace elements */
   code, pre, .font-mono {
     font-family: var(--font-jetbrains-mono);
+    color: hsl(var(--foreground));
+  }
+
+  /* Link styling */
+  a {
+    color: hsl(var(--primary));
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: hsl(var(--primary) / 0.8);
   }
 }
 
@@ -102,24 +129,44 @@
   .bg-app-primary { background-color: hsl(var(--app-primary)); }
   .bg-app-secondary { background-color: hsl(var(--app-secondary)); }
   .bg-app-accent { background-color: hsl(var(--app-accent)); }
-  .bg-app-card { background-color: hsl(var(--card)); }
+  .bg-app-card { 
+    background-color: hsl(var(--card)); 
+    color: hsl(var(--card-foreground));
+  }
   .bg-app-card-secondary { 
     background-color: hsl(var(--card));
     border: 1px solid hsl(var(--border));
+    color: hsl(var(--card-foreground));
   }
 
-  /* Text utilities */
-  .text-app-primary { color: hsl(var(--app-primary)); }
-  .text-app-secondary { color: hsl(var(--app-secondary)); }
-  .text-app-accent { color: hsl(var(--app-accent)); }
+  /* Text utilities with proper contrast */
+  .text-app-primary { color: hsl(var(--primary)); }
+  .text-app-secondary { color: hsl(var(--secondary-foreground)); }
+  .text-app-accent { color: hsl(var(--accent-foreground)); }
   .text-app-muted { color: hsl(var(--muted-foreground)); }
   .text-app-foreground { color: hsl(var(--foreground)); }
 
+  /* Ensure high contrast text */
+  .text-contrast { color: hsl(var(--foreground)) !important; }
+  .text-contrast-muted { color: hsl(var(--muted-foreground)) !important; }
+
   /* Status color utilities */
-  .bg-app-success { background-color: hsl(var(--app-success)); }
-  .bg-app-warning { background-color: hsl(var(--app-warning)); }
-  .bg-app-error { background-color: hsl(var(--app-error)); }
-  .bg-app-info { background-color: hsl(var(--app-info)); }
+  .bg-app-success { 
+    background-color: hsl(var(--app-success)); 
+    color: hsl(var(--primary-foreground));
+  }
+  .bg-app-warning { 
+    background-color: hsl(var(--app-warning)); 
+    color: hsl(var(--primary-foreground));
+  }
+  .bg-app-error { 
+    background-color: hsl(var(--app-error)); 
+    color: hsl(var(--destructive-foreground));
+  }
+  .bg-app-info { 
+    background-color: hsl(var(--app-info)); 
+    color: hsl(var(--primary-foreground));
+  }
 
   .text-app-success { color: hsl(var(--app-success)); }
   .text-app-warning { color: hsl(var(--app-warning)); }
@@ -131,10 +178,19 @@
   .border-app-secondary { border-color: hsl(var(--app-secondary)); }
   .border-app-accent { border-color: hsl(var(--border)); }
 
-  /* Interactive states */
-  .hover\:bg-app-primary:hover { background-color: hsl(var(--app-primary) / 0.9); }
-  .hover\:bg-app-secondary:hover { background-color: hsl(var(--app-secondary) / 0.9); }
-  .hover\:bg-app-accent:hover { background-color: hsl(var(--app-accent) / 0.9); }
+  /* Interactive states with proper contrast */
+  .hover\:bg-app-primary:hover { 
+    background-color: hsl(var(--app-primary) / 0.9); 
+    color: hsl(var(--primary-foreground));
+  }
+  .hover\:bg-app-secondary:hover { 
+    background-color: hsl(var(--app-secondary) / 0.9); 
+    color: hsl(var(--secondary-foreground));
+  }
+  .hover\:bg-app-accent:hover { 
+    background-color: hsl(var(--app-accent) / 0.9); 
+    color: hsl(var(--accent-foreground));
+  }
 
   /* Focus states */
   .focus\:ring-app-primary:focus { 
@@ -164,6 +220,7 @@
       hsl(var(--card)) 50%, 
       hsl(var(--background)) 100%
     );
+    color: hsl(var(--foreground));
   }
 
   .bg-app-card-gradient { 
@@ -171,6 +228,7 @@
       hsl(var(--card)) 0%, 
       hsl(var(--muted)) 100%
     );
+    color: hsl(var(--card-foreground));
   }
 
   /* Shadow utilities matching OmniPanelAI */
@@ -193,5 +251,21 @@
     transition: background-color 0.2s ease-in-out, 
                 border-color 0.2s ease-in-out, 
                 color 0.2s ease-in-out;
+  }
+
+  /* Ensure proper visibility in both themes */
+  .visible-text {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .visible-text-muted {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  /* Card styling with proper contrast */
+  .theme-card {
+    background-color: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1px solid hsl(var(--border));
   }
 }

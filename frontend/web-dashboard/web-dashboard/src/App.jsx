@@ -26,6 +26,13 @@ function App() {
   useEffect(() => {
     // Apply OmniPanelAI workspace theme
     document.documentElement.classList.toggle('dark', isDarkMode);
+    // Ensure body has proper background
+    document.body.style.backgroundColor = isDarkMode 
+      ? 'hsl(222.2 84% 4.9%)' 
+      : 'hsl(0 0% 100%)';
+    document.body.style.color = isDarkMode 
+      ? 'hsl(210 40% 98%)' 
+      : 'hsl(222.2 84% 4.9%)';
   }, [isDarkMode]);
 
   // Navigation items
@@ -65,7 +72,7 @@ function App() {
   return (
     <div className={`min-h-screen transition-app ${isDarkMode ? 'dark' : ''}`}>
       <Router>
-        <div className="flex bg-background text-foreground">
+        <div className="flex bg-background text-foreground visible-text">
           {/* Sidebar */}
           <Sidebar 
             currentUser={currentUser} 
@@ -75,7 +82,7 @@ function App() {
           />
           
           {/* Main Content */}
-          <main className="flex-1 bg-background">
+          <main className="flex-1 bg-background visible-text">
             <div className="bg-app-gradient min-h-screen">
               <Routes>
                 <Route 

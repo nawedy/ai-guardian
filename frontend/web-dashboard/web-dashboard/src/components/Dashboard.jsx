@@ -126,19 +126,19 @@ const Dashboard = ({ currentUser, notifications, setNotifications }) => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center h-full visible-text">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 visible-text">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Security Dashboard</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold visible-text">Security Dashboard</h1>
+          <p className="visible-text-muted mt-1">
             Welcome back, {currentUser.name}. Here's your security overview.
           </p>
         </div>

@@ -52,16 +52,16 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
   ];
 
   return (
-    <div className="w-64 h-screen bg-card border-r border-border flex flex-col">
+    <div className="w-64 h-screen bg-card border-r border-border flex flex-col theme-card">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-8 h-8 bg-app-primary rounded-lg">
+          <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-lg">
             <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-foreground">AI Guardian</h1>
-            <p className="text-xs text-muted-foreground">OmniPanelAI Integration</p>
+            <h1 className="text-lg font-bold visible-text">AI Guardian</h1>
+            <p className="text-xs visible-text-muted">OmniPanelAI Integration</p>
           </div>
         </div>
         
@@ -70,13 +70,13 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
           variant="ghost"
           size="sm"
           onClick={() => setIsDarkMode(!isDarkMode)}
-          className="p-2 hover:bg-muted transition-app"
+          className="p-2 hover:bg-muted transition-app visible-text-muted hover:visible-text"
           title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
           {isDarkMode ? (
-            <Sun className="w-4 h-4 text-muted-foreground" />
+            <Sun className="w-4 h-4" />
           ) : (
-            <Moon className="w-4 h-4 text-muted-foreground" />
+            <Moon className="w-4 h-4" />
           )}
         </Button>
       </div>
@@ -94,12 +94,12 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
                   to={item.path}
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-app ${
                     isActive
-                      ? 'bg-app-accent text-accent-foreground border border-border shadow-app-sm'
-                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                      ? 'bg-primary text-primary-foreground border border-border shadow-app-sm'
+                      : 'visible-text-muted hover:bg-muted hover:visible-text'
                   }`}
                 >
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-accent-foreground' : 'text-muted-foreground'}`} />
-                  <span className={`font-medium ${isActive ? 'text-accent-foreground' : 'text-muted-foreground'}`}>
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : ''}`} />
+                  <span className={`font-medium ${isActive ? 'text-primary-foreground' : ''}`}>
                     {item.label}
                   </span>
                 </Link>
@@ -121,14 +121,14 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
                   className="w-8 h-8 rounded-full object-cover"
                 />
               ) : (
-                <User className="w-4 h-4 text-muted-foreground" />
+                <User className="w-4 h-4 visible-text-muted" />
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">
+              <p className="text-sm font-medium visible-text truncate">
                 {currentUser.name}
               </p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-xs visible-text-muted truncate">
                 {currentUser.role}
               </p>
             </div>
@@ -137,7 +137,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted transition-app"
+            className="w-full justify-start visible-text-muted hover:visible-text hover:bg-muted transition-app"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
