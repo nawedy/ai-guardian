@@ -5,14 +5,14 @@
 const isDevelopment = import.meta.env.MODE === 'development';
 const isProduction = import.meta.env.MODE === 'production';
 
-// Production service URLs (Railway deployment)
+// Production service URLs (Render deployment)
 const PRODUCTION_SERVICES = {
-  API_GATEWAY: import.meta.env.VITE_API_GATEWAY_URL || 'https://ai-guardian-api-gateway.railway.app',
-  CODE_SCANNER: import.meta.env.VITE_CODE_SCANNER_URL || 'https://ai-guardian-code-scanner.railway.app',
-  INTELLIGENT_ANALYSIS: import.meta.env.VITE_INTELLIGENT_ANALYSIS_URL || 'https://ai-guardian-intelligent-analysis.railway.app',
-  REMEDIATION_ENGINE: import.meta.env.VITE_REMEDIATION_ENGINE_URL || 'https://ai-guardian-remediation-engine.railway.app',
-  ADAPTIVE_LEARNING: import.meta.env.VITE_ADAPTIVE_LEARNING_URL || 'https://ai-guardian-adaptive-learning.railway.app',
-  WEBSOCKET: import.meta.env.VITE_WEBSOCKET_URL || 'wss://ai-guardian-code-scanner.railway.app/ws'
+  API_GATEWAY: import.meta.env.VITE_API_GATEWAY_URL || 'https://ai-guardian-api-gateway.onrender.com',
+  CODE_SCANNER: import.meta.env.VITE_CODE_SCANNER_URL || 'https://ai-guardian-code-scanner.onrender.com',
+  INTELLIGENT_ANALYSIS: import.meta.env.VITE_INTELLIGENT_ANALYSIS_URL || 'https://ai-guardian-intelligent-analysis.onrender.com',
+  REMEDIATION_ENGINE: import.meta.env.VITE_REMEDIATION_ENGINE_URL || 'https://ai-guardian-remediation-engine.onrender.com',
+  ADAPTIVE_LEARNING: import.meta.env.VITE_ADAPTIVE_LEARNING_URL || 'https://ai-guardian-adaptive-learning.onrender.com',
+  WEBSOCKET: import.meta.env.VITE_WEBSOCKET_URL || 'wss://ai-guardian-code-scanner.onrender.com/ws'
 };
 
 // Development service URLs (localhost)
