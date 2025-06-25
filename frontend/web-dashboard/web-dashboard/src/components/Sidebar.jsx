@@ -1,39 +1,82 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, ChevronLeft, ChevronRight, User, LogOut } from 'lucide-react';
+import { 
+  Shield, 
+  User, 
+  LogOut, 
+  Moon, 
+  Sun,
+  Home,
+  FileText,
+  Activity,
+  Users,
+  Settings,
+  AlertTriangle 
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const Sidebar = ({ navigationItems, collapsed, onToggleCollapse, currentUser }) => {
+const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
   const location = useLocation();
 
+  const navigationItems = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      path: '/',
+      icon: Home
+    },
+    {
+      id: 'scan-results',
+      label: 'Scan Results',
+      path: '/scan-results',
+      icon: FileText
+    },
+    {
+      id: 'real-time',
+      label: 'Real-Time Monitor',
+      path: '/real-time',
+      icon: Activity
+    },
+    {
+      id: 'team',
+      label: 'Team Management',
+      path: '/team',
+      icon: Users
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      path: '/settings',
+      icon: Settings
+    }
+  ];
+
   return (
-    <div className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 transition-all duration-300 z-50 ${
-      collapsed ? 'w-16' : 'w-64'
-    }`}>
+    <div className="w-64 h-screen bg-card border-r border-border flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <div className={`flex items-center space-x-3 ${collapsed ? 'justify-center' : ''}`}>
-          <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-lg">
-            <Shield className="w-5 h-5 text-white" />
+      <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-center w-8 h-8 bg-app-primary rounded-lg">
+            <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
-          {!collapsed && (
-            <div>
-              <h1 className="text-lg font-bold text-gray-900">AI Guardian</h1>
-              <p className="text-xs text-gray-500">Cybersecurity Dashboard</p>
-            </div>
-          )}
+          <div>
+            <h1 className="text-lg font-bold text-foreground">AI Guardian</h1>
+            <p className="text-xs text-muted-foreground">OmniPanelAI Integration</p>
+          </div>
         </div>
         
+        {/* Dark Mode Toggle */}
         <Button
           variant="ghost"
           size="sm"
-          onClick={onToggleCollapse}
-          className="p-1 hover:bg-gray-100"
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="p-2 hover:bg-muted transition-app"
+          title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-          {collapsed ? (
-            <ChevronRight className="w-4 h-4" />
+          {isDarkMode ? (
+            <Sun className="w-4 h-4 text-muted-foreground" />
           ) : (
-            <ChevronLeft className="w-4 h-4" />
+            <Moon className="w-4 h-4 text-muted-foreground" />
           )}
         </Button>
       </div>
@@ -49,19 +92,16 @@ const Sidebar = ({ navigationItems, collapsed, onToggleCollapse, currentUser }) 
               <li key={item.id}>
                 <Link
                   to={item.path}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-app ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  } ${collapsed ? 'justify-center' : ''}`}
-                  title={collapsed ? item.label : ''}
+                      ? 'bg-app-accent text-accent-foreground border border-border shadow-app-sm'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  }`}
                 >
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-blue-700' : 'text-gray-500'}`} />
-                  {!collapsed && (
-                    <span className={`font-medium ${isActive ? 'text-blue-700' : 'text-gray-700'}`}>
-                      {item.label}
-                    </span>
-                  )}
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-accent-foreground' : 'text-muted-foreground'}`} />
+                  <span className={`font-medium ${isActive ? 'text-accent-foreground' : 'text-muted-foreground'}`}>
+                    {item.label}
+                  </span>
                 </Link>
               </li>
             );
@@ -70,44 +110,39 @@ const Sidebar = ({ navigationItems, collapsed, onToggleCollapse, currentUser }) 
       </nav>
 
       {/* User Profile */}
-      <div className="border-t border-gray-200 p-4">
-        {!collapsed ? (
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full">
-                <User className="w-4 h-4 text-gray-600" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
-                  {currentUser.name}
-                </p>
-                <p className="text-xs text-gray-500 truncate">
-                  {currentUser.email}
-                </p>
-              </div>
+      <div className="border-t border-border p-4">
+        <div className="space-y-3">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-full">
+              {currentUser.avatar ? (
+                <img 
+                  src={currentUser.avatar} 
+                  alt={currentUser.name}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              ) : (
+                <User className="w-4 h-4 text-muted-foreground" />
+              )}
             </div>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start text-gray-600 hover:text-gray-900"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
-            </Button>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground truncate">
+                {currentUser.name}
+              </p>
+              <p className="text-xs text-muted-foreground truncate">
+                {currentUser.role}
+              </p>
+            </div>
           </div>
-        ) : (
-          <div className="flex justify-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="p-2"
-              title="User Profile"
-            >
-              <User className="w-4 h-4 text-gray-600" />
-            </Button>
-          </div>
-        )}
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted transition-app"
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            Sign Out
+          </Button>
+        </div>
       </div>
     </div>
   );

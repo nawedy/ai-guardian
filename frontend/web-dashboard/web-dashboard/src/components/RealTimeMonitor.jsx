@@ -510,13 +510,13 @@ const RealTimeMonitor = ({ currentUser }) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-4">
-            {/* Language Detection Display */}
-            <div className="flex items-center space-x-2 px-3 py-2 bg-slate-100 rounded-md">
-              <span className="text-sm text-slate-600">Detected:</span>
-              <Badge variant="secondary" className="capitalize">
-                {detectedLanguage}
-              </Badge>
-            </div>
+                         {/* Language Detection Display */}
+             <div className="flex items-center space-x-2 px-3 py-2 bg-muted rounded-md border border-border">
+               <span className="text-sm text-muted-foreground">Detected:</span>
+               <Badge variant="secondary" className="capitalize bg-app-accent text-accent-foreground">
+                 {detectedLanguage}
+               </Badge>
+             </div>
             
             <Button
               variant="outline"

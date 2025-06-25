@@ -1,152 +1,197 @@
 @import "tailwindcss";
 
-/* Dark mode color scheme with neutral backgrounds and yellow/orange accents */
-:root {
-  /* Background Colors - Dark Mode Default */
-  --background: 220 9% 5%;           /* neutral-950 equivalent */
-  --background-secondary: 220 9% 9%; /* neutral-900 equivalent */
-  --background-tertiary: 220 7% 15%; /* neutral-800 equivalent */
-  
-  /* Foreground/Text Colors */
-  --foreground: 220 15% 95%;         /* neutral-50 for primary text */
-  --foreground-muted: 220 9% 65%;    /* neutral-400 for secondary text */
-  --foreground-subtle: 220 9% 45%;   /* neutral-500 for subtle text */
-  
-  /* Card & Component Colors */
-  --card: 220 9% 9%;                 /* neutral-900 for cards */
-  --card-foreground: 220 15% 95%;    /* neutral-50 for card text */
-  
-  /* Accent Colors */
-  --primary: 45 93% 47%;             /* yellow-500 */
-  --primary-foreground: 220 9% 5%;   /* neutral-950 for contrast */
-  --secondary: 25 95% 53%;           /* orange-500 */
-  --secondary-foreground: 220 9% 5%; /* neutral-950 for contrast */
-  
-  /* Interactive Elements */
-  --muted: 220 7% 15%;               /* neutral-800 for muted backgrounds */
-  --muted-foreground: 220 9% 65%;    /* neutral-400 for muted text */
-  --border: 220 7% 20%;              /* neutral-800 for borders */
-  
-  /* Alert Colors */
-  --success: 142 76% 36%;            /* emerald-600 */
-  --success-foreground: 220 15% 95%; /* neutral-50 */
-  --warning: 45 93% 47%;             /* yellow-500 */
-  --warning-foreground: 220 9% 5%;   /* neutral-950 */
-  --error: 0 84% 60%;                /* red-500 */
-  --error-foreground: 220 15% 95%;   /* neutral-50 */
-  --info: 217 91% 60%;               /* blue-500 */
-  --info-foreground: 220 15% 95%;    /* neutral-50 */
-}
-
-/* Light mode override (for future use) */
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
+    --font-inter: 'Inter', sans-serif;
+    --font-jetbrains-mono: 'JetBrains Mono', monospace;
+    
+    /* Light theme colors - OmniPanelAI Workspace Theme */
     --background: 0 0% 100%;
-    --background-secondary: 220 15% 96%;
-    --background-tertiary: 220 13% 91%;
-    --foreground: 220 9% 9%;
-    --foreground-muted: 220 9% 45%;
-    --foreground-subtle: 220 9% 65%;
+    --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
-    --card-foreground: 220 9% 9%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 220 9% 45%;
-    --border: 220 13% 91%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    /* AI Guardian specific colors - matching OmniPanelAI */
+    --app-primary: 222.2 47.4% 11.2%;
+    --app-secondary: 217.2 32.6% 17.5%;
+    --app-accent: 210 40% 96.1%;
+    --app-success: 173 58% 39%;
+    --app-warning: 43 74% 66%;
+    --app-error: 0 84.2% 60.2%;
+    --app-info: 220 70% 50%;
+  }
+
+  .dark {
+    /* Dark theme colors - OmniPanelAI Workspace Theme */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* AI Guardian specific dark colors - matching OmniPanelAI */
+    --app-primary: 210 40% 98%;
+    --app-secondary: 217.2 32.6% 17.5%;
+    --app-accent: 217.2 32.6% 17.5%;
+    --app-success: 160 60% 45%;
+    --app-warning: 30 80% 55%;
+    --app-error: 0 62.8% 30.6%;
+    --app-info: 220 70% 50%;
+  }
+
+  /* Set dark mode as default */
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-inter);
+  }
+
+  /* Code and monospace elements */
+  code, pre, .font-mono {
+    font-family: var(--font-jetbrains-mono);
   }
 }
 
-/* Base styles */
-* {
-  box-sizing: border-box;
-}
+/* OmniPanelAI Workspace Integration Utility Classes */
+@layer utilities {
+  /* Background utilities */
+  .bg-app-primary { background-color: hsl(var(--app-primary)); }
+  .bg-app-secondary { background-color: hsl(var(--app-secondary)); }
+  .bg-app-accent { background-color: hsl(var(--app-accent)); }
+  .bg-app-card { background-color: hsl(var(--card)); }
+  .bg-app-card-secondary { 
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+  }
 
-html {
-  color-scheme: dark;
-}
+  /* Text utilities */
+  .text-app-primary { color: hsl(var(--app-primary)); }
+  .text-app-secondary { color: hsl(var(--app-secondary)); }
+  .text-app-accent { color: hsl(var(--app-accent)); }
+  .text-app-muted { color: hsl(var(--muted-foreground)); }
+  .text-app-foreground { color: hsl(var(--foreground)); }
 
-body {
-  margin: 0;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: hsl(var(--foreground));
-  background-color: hsl(var(--background));
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
+  /* Status color utilities */
+  .bg-app-success { background-color: hsl(var(--app-success)); }
+  .bg-app-warning { background-color: hsl(var(--app-warning)); }
+  .bg-app-error { background-color: hsl(var(--app-error)); }
+  .bg-app-info { background-color: hsl(var(--app-info)); }
 
-/* Custom utility classes for the AI Guardian theme */
-.bg-app-primary {
-  background-color: hsl(var(--background));
-}
+  .text-app-success { color: hsl(var(--app-success)); }
+  .text-app-warning { color: hsl(var(--app-warning)); }
+  .text-app-error { color: hsl(var(--app-error)); }
+  .text-app-info { color: hsl(var(--app-info)); }
 
-.bg-app-secondary {
-  background-color: hsl(var(--background-secondary));
-}
+  /* Border utilities */
+  .border-app-primary { border-color: hsl(var(--app-primary)); }
+  .border-app-secondary { border-color: hsl(var(--app-secondary)); }
+  .border-app-accent { border-color: hsl(var(--border)); }
 
-.bg-app-tertiary {
-  background-color: hsl(var(--background-tertiary));
-}
+  /* Interactive states */
+  .hover\:bg-app-primary:hover { background-color: hsl(var(--app-primary) / 0.9); }
+  .hover\:bg-app-secondary:hover { background-color: hsl(var(--app-secondary) / 0.9); }
+  .hover\:bg-app-accent:hover { background-color: hsl(var(--app-accent) / 0.9); }
 
-.bg-app-card {
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--border));
-}
+  /* Focus states */
+  .focus\:ring-app-primary:focus { 
+    --tw-ring-color: hsl(var(--app-primary) / 0.5);
+  }
+  .focus\:border-app-primary:focus { 
+    border-color: hsl(var(--app-primary));
+  }
 
-.text-app-primary {
-  color: hsl(var(--foreground));
-}
+  /* Chart color utilities for dashboard consistency */
+  .chart-color-1 { color: hsl(var(--chart-1)); }
+  .chart-color-2 { color: hsl(var(--chart-2)); }
+  .chart-color-3 { color: hsl(var(--chart-3)); }
+  .chart-color-4 { color: hsl(var(--chart-4)); }
+  .chart-color-5 { color: hsl(var(--chart-5)); }
 
-.text-app-secondary {
-  color: hsl(var(--foreground-muted));
-}
+  .bg-chart-1 { background-color: hsl(var(--chart-1)); }
+  .bg-chart-2 { background-color: hsl(var(--chart-2)); }
+  .bg-chart-3 { background-color: hsl(var(--chart-3)); }
+  .bg-chart-4 { background-color: hsl(var(--chart-4)); }
+  .bg-chart-5 { background-color: hsl(var(--chart-5)); }
 
-.text-app-subtle {
-  color: hsl(var(--foreground-subtle));
-}
+  /* Gradient utilities for enhanced visuals */
+  .bg-app-gradient { 
+    background: linear-gradient(135deg, 
+      hsl(var(--background)) 0%, 
+      hsl(var(--card)) 50%, 
+      hsl(var(--background)) 100%
+    );
+  }
 
-.accent-primary {
-  color: hsl(var(--primary));
-}
+  .bg-app-card-gradient { 
+    background: linear-gradient(135deg, 
+      hsl(var(--card)) 0%, 
+      hsl(var(--muted)) 100%
+    );
+  }
 
-.accent-secondary {
-  color: hsl(var(--secondary));
-}
+  /* Shadow utilities matching OmniPanelAI */
+  .shadow-app-sm { 
+    box-shadow: 0 1px 2px 0 hsl(var(--foreground) / 0.05);
+  }
+  
+  .shadow-app { 
+    box-shadow: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 
+                0 1px 2px -1px hsl(var(--foreground) / 0.1);
+  }
+  
+  .shadow-app-md { 
+    box-shadow: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 
+                0 2px 4px -2px hsl(var(--foreground) / 0.1);
+  }
 
-.bg-accent-primary {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-}
-
-.bg-accent-secondary {
-  background-color: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-}
-
-/* Alert variants */
-.alert-success {
-  background-color: hsl(var(--success) / 0.1);
-  border-color: hsl(var(--success) / 0.3);
-  color: hsl(var(--success));
-}
-
-.alert-warning {
-  background-color: hsl(var(--warning) / 0.1);
-  border-color: hsl(var(--warning) / 0.3);
-  color: hsl(var(--warning-foreground));
-}
-
-.alert-error {
-  background-color: hsl(var(--error) / 0.1);
-  border-color: hsl(var(--error) / 0.3);
-  color: hsl(var(--error));
-}
-
-.alert-info {
-  background-color: hsl(var(--info) / 0.1);
-  border-color: hsl(var(--info) / 0.3);
-  color: hsl(var(--info));
+  /* Animation utilities for smooth transitions */
+  .transition-app { 
+    transition: background-color 0.2s ease-in-out, 
+                border-color 0.2s ease-in-out, 
+                color 0.2s ease-in-out;
+  }
 }
