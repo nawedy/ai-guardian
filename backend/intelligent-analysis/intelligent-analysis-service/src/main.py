@@ -1,5 +1,7 @@
 import os
 import sys
+from sqlalchemy import text
+
 # DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -24,7 +26,7 @@ with app.app_context():
 def serve(path):
     static_folder_path = app.static_folder
     if static_folder_path is None:
-            return "Static folder not configured", 404
+        return "Static folder not configured", 404
 
     if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
         return send_from_directory(static_folder_path, path)
@@ -41,11 +43,10 @@ def health():
     try:
         # Test database connection (SQLAlchemy 2.x compatible)
         with app.app_context():
-            from sqlalchemy import text
             with db.engine.connect() as connection:
                 connection.execute(text("SELECT 1"))
         return {
-            'status': 'healthy', 
+            'status': 'healthy',
             'service': 'ai-guardian-intelligent-analysis',
             'version': '1.0.0'
         }

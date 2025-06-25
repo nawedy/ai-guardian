@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+from sqlalchemy import text
 
 # DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -102,7 +103,6 @@ def health():
     try:
         # Test database connection (SQLAlchemy 2.x compatible)
         with app.app_context():
-            from sqlalchemy import text
             with db.engine.connect() as connection:
                 connection.execute(text("SELECT 1"))
         

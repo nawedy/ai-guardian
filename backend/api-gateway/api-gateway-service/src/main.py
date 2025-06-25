@@ -1,12 +1,12 @@
 import os
 import sys
 import logging
-from typing import Dict, Any
+from sqlalchemy import text
 
 # DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from src.models.user import db
 from src.routes.user import user_bp
@@ -24,8 +24,9 @@ except ImportError:
         DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
         DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///./database/app.db')
         ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
+
         @classmethod
-        def get_cors_config(cls): 
+        def get_cors_config(cls):
             return {'origins': ['*']}
     config = Config()
 
@@ -44,7 +45,7 @@ logging.basicConfig(
 
 # Production CORS configuration
 cors_config = config.get_cors_config()
-CORS(app, 
+CORS(app,
      origins=cors_config.get('origins', ['*']),
      allow_headers=cors_config.get('headers', ['Content-Type', 'Authorization']),
      methods=cors_config.get('methods', ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']))
@@ -73,12 +74,13 @@ with app.app_context():
         app.logger.error(f"Database initialization failed: {e}")
         raise
 
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
     static_folder_path = app.static_folder
     if static_folder_path is None:
-            return "Static folder not configured", 404
+        return "Static folder not configured", 404
 
     if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
         return send_from_directory(static_folder_path, path)
@@ -89,17 +91,17 @@ def serve(path):
         else:
             return "index.html not found", 404
 
+
 @app.route('/health')
 def health():
     """Production health check endpoint"""
     try:
         # Test database connection (SQLAlchemy 2.x compatible)
         with app.app_context():
-            from sqlalchemy import text
             with db.engine.connect() as connection:
                 connection.execute(text("SELECT 1"))
         return {
-            'status': 'healthy', 
+            'status': 'healthy',
             'service': 'ai-guardian-api-gateway',
             'environment': config.ENVIRONMENT,
             'version': '1.0.0'
@@ -108,11 +110,12 @@ def health():
         app.logger.error(f"Health check failed: {e}")
         return {'status': 'unhealthy', 'error': str(e)}, 503
 
+
 if __name__ == '__main__':
     # Production startup configuration
     port = int(os.getenv('PORT', 5000))
     host = '0.0.0.0'
     debug = config.DEBUG
-    
+
     app.logger.info(f"Starting server on {host}:{port} (debug={debug})")
     app.run(host=host, port=port, debug=debug)
