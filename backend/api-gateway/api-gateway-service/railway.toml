@@ -1,0 +1,22 @@
+# backend/api-gateway/api-gateway-service/railway.toml
+# Railway deployment configuration for API Gateway Service
+# Maintains all advanced gateway functionality
+
+[build]
+builder = "nixpacks"
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "python src/main.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 10
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[networking]
+serviceName = "ai-guardian-api-gateway"
+
+[env]
+ENVIRONMENT = "production"
+DEBUG = "false"
+PORT = "5000" 

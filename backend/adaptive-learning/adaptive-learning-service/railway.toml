@@ -1,0 +1,23 @@
+# backend/adaptive-learning/adaptive-learning-service/railway.toml
+# Railway deployment configuration for Adaptive Learning Service
+# Maintains all advanced machine learning and adaptation capabilities
+
+[build]
+builder = "nixpacks"
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "python src/main.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 15
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[networking]
+serviceName = "ai-guardian-adaptive-learning"
+
+[env]
+ENVIRONMENT = "production"
+DEBUG = "false"
+PORT = "5004"
+ENABLE_ADAPTIVE_LEARNING = "true" 

@@ -1,0 +1,24 @@
+# backend/code-scanner/code-scanner-service/railway.toml
+# Railway deployment configuration for Code Scanner Service
+# Maintains all advanced vulnerability detection and real-time scanning
+
+[build]
+builder = "nixpacks"
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "python src/main.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 15
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[networking]
+serviceName = "ai-guardian-code-scanner"
+
+[env]
+ENVIRONMENT = "production"
+DEBUG = "false"
+PORT = "5001"
+ENABLE_REAL_TIME_SCANNING = "true"
+MAX_CONCURRENT_SCANS = "50" 
