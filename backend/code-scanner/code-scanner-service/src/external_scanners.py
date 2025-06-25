@@ -83,9 +83,28 @@ class ExternalScannerIntegration:
             ext_map = {
                 'python': '.py',
                 'javascript': '.js',
+                'typescript': '.ts',
                 'java': '.java',
                 'go': '.go',
-                'rust': '.rs'
+                'rust': '.rs',
+                'csharp': '.cs',
+                'cpp': '.cpp',
+                'c': '.c',
+                'php': '.php',
+                'ruby': '.rb',
+                'swift': '.swift',
+                'kotlin': '.kt',
+                'scala': '.scala',
+                'html': '.html',
+                'css': '.css',
+                'sql': '.sql',
+                'shell': '.sh',
+                'powershell': '.ps1',
+                'r': '.r',
+                'matlab': '.m',
+                'perl': '.pl',
+                'lua': '.lua',
+                'dart': '.dart'
             }
             
             file_ext = ext_map.get(language, '.txt')

@@ -15,7 +15,11 @@ class VulnerabilityScanner:
     
     def __init__(self):
         self.vulnerability_patterns = self._load_vulnerability_patterns()
-        self.supported_languages = ['python', 'javascript', 'java', 'csharp', 'go', 'rust']
+        self.supported_languages = [
+            'python', 'javascript', 'typescript', 'java', 'csharp', 'go', 'rust', 
+            'cpp', 'c', 'php', 'ruby', 'swift', 'kotlin', 'scala', 'html', 'css', 
+            'sql', 'shell', 'powershell', 'r', 'matlab', 'perl', 'lua', 'dart'
+        ]
         self.external_scanners = ExternalScannerIntegration()
     
     def _load_vulnerability_patterns(self) -> Dict[str, List[Dict]]:
@@ -48,11 +52,19 @@ class VulnerabilityScanner:
                 },
                 {
                     'id': 'PY004',
-                    'type': 'EVAL_INJECTION',
-                    'severity': 'CRITICAL',
-                    'pattern': r'eval\s*\(\s*.*input.*\)',
-                    'description': 'Code injection via eval() with user input',
-                    'recommendation': 'Avoid using eval() with user input'
+                    'type': 'WEAK_CRYPTO',
+                    'severity': 'MEDIUM',
+                    'pattern': r'md5\(|sha1\(',
+                    'description': 'Weak cryptographic hash function',
+                    'recommendation': 'Use stronger hash functions like SHA-256 or bcrypt'
+                },
+                {
+                    'id': 'PY005',
+                    'type': 'UNSAFE_EVAL',
+                    'severity': 'HIGH',
+                    'pattern': r'eval\s*\(',
+                    'description': 'Unsafe use of eval() function',
+                    'recommendation': 'Avoid eval() or use ast.literal_eval() for safe evaluation'
                 }
             ],
             'javascript': [
@@ -60,25 +72,241 @@ class VulnerabilityScanner:
                     'id': 'JS001',
                     'type': 'XSS',
                     'severity': 'HIGH',
-                    'pattern': r'innerHTML\s*=\s*.*\+.*',
-                    'description': 'Potential XSS vulnerability via innerHTML',
-                    'recommendation': 'Use textContent or proper sanitization'
+                    'pattern': r'innerHTML\s*=\s*.*\+',
+                    'description': 'Potential XSS vulnerability with innerHTML',
+                    'recommendation': 'Use textContent or sanitize input before setting innerHTML'
                 },
                 {
                     'id': 'JS002',
-                    'type': 'EVAL_INJECTION',
-                    'severity': 'CRITICAL',
-                    'pattern': r'eval\s*\(\s*.*\)',
-                    'description': 'Use of eval() function',
-                    'recommendation': 'Avoid eval() and use safer alternatives'
+                    'type': 'UNSAFE_EVAL',
+                    'severity': 'HIGH',
+                    'pattern': r'eval\s*\(',
+                    'description': 'Unsafe use of eval() function',
+                    'recommendation': 'Avoid eval() or use JSON.parse() for safe evaluation'
                 },
                 {
                     'id': 'JS003',
                     'type': 'HARDCODED_SECRET',
                     'severity': 'CRITICAL',
-                    'pattern': r'(apiKey|secret|password|token)\s*[:=]\s*["\'][^"\']{8,}["\']',
-                    'description': 'Hardcoded API key or secret',
-                    'recommendation': 'Use environment variables for secrets'
+                    'pattern': r'(password|secret|key|token|apikey)\s*[:=]\s*["\'][^"\']{8,}["\']',
+                    'description': 'Hardcoded secret detected',
+                    'recommendation': 'Use environment variables or secure configuration'
+                },
+                {
+                    'id': 'JS004',
+                    'type': 'WEAK_RANDOMNESS',
+                    'severity': 'MEDIUM',
+                    'pattern': r'Math\.random\(\)',
+                    'description': 'Weak random number generation',
+                    'recommendation': 'Use crypto.getRandomValues() for cryptographic purposes'
+                },
+                {
+                    'id': 'JS005',
+                    'type': 'PROTOTYPE_POLLUTION',
+                    'severity': 'HIGH',
+                    'pattern': r'__proto__|\[.*constructor.*\]',
+                    'description': 'Potential prototype pollution vulnerability',
+                    'recommendation': 'Validate and sanitize object properties'
+                }
+            ],
+            'typescript': [
+                {
+                    'id': 'TS001',
+                    'type': 'ANY_TYPE',
+                    'severity': 'LOW',
+                    'pattern': r':\s*any\b',
+                    'description': 'Use of any type reduces type safety',
+                    'recommendation': 'Use specific types instead of any'
+                },
+                {
+                    'id': 'TS002',
+                    'type': 'XSS',
+                    'severity': 'HIGH',
+                    'pattern': r'innerHTML\s*=\s*.*\+',
+                    'description': 'Potential XSS vulnerability with innerHTML',
+                    'recommendation': 'Use textContent or sanitize input before setting innerHTML'
+                },
+                {
+                    'id': 'TS003',
+                    'type': 'HARDCODED_SECRET',
+                    'severity': 'CRITICAL',
+                    'pattern': r'(password|secret|key|token|apikey)\s*[:=]\s*["\'][^"\']{8,}["\']',
+                    'description': 'Hardcoded secret detected',
+                    'recommendation': 'Use environment variables or secure configuration'
+                },
+                {
+                    'id': 'TS004',
+                    'type': 'UNSAFE_ASSERTION',
+                    'severity': 'MEDIUM',
+                    'pattern': r'as\s+any|!\s*$',
+                    'description': 'Unsafe type assertion',
+                    'recommendation': 'Use proper type guards instead of unsafe assertions'
+                }
+            ],
+            'java': [
+                {
+                    'id': 'JV001',
+                    'type': 'SQL_INJECTION',
+                    'severity': 'HIGH',
+                    'pattern': r'Statement.*executeQuery\s*\(\s*["\'].*\+.*["\']',
+                    'description': 'Potential SQL injection vulnerability',
+                    'recommendation': 'Use PreparedStatement with parameterized queries'
+                },
+                {
+                    'id': 'JV002',
+                    'type': 'HARDCODED_SECRET',
+                    'severity': 'CRITICAL',
+                    'pattern': r'(password|secret|key|token)\s*=\s*["\'][^"\']{8,}["\']',
+                    'description': 'Hardcoded secret detected',
+                    'recommendation': 'Use external configuration or environment variables'
+                },
+                {
+                    'id': 'JV003',
+                    'type': 'WEAK_CRYPTO',
+                    'severity': 'MEDIUM',
+                    'pattern': r'MessageDigest\.getInstance\s*\(\s*["\']MD5["\']',
+                    'description': 'Weak cryptographic hash function',
+                    'recommendation': 'Use SHA-256 or stronger hash functions'
+                },
+                {
+                    'id': 'JV004',
+                    'type': 'DESERIALIZATION',
+                    'severity': 'HIGH',
+                    'pattern': r'ObjectInputStream.*readObject',
+                    'description': 'Unsafe deserialization',
+                    'recommendation': 'Validate object types before deserialization'
+                }
+            ],
+            'csharp': [
+                {
+                    'id': 'CS001',
+                    'type': 'SQL_INJECTION',
+                    'severity': 'HIGH',
+                    'pattern': r'SqlCommand.*CommandText\s*=\s*.*\+',
+                    'description': 'Potential SQL injection vulnerability',
+                    'recommendation': 'Use parameterized queries with SqlParameter'
+                },
+                {
+                    'id': 'CS002',
+                    'type': 'HARDCODED_SECRET',
+                    'severity': 'CRITICAL',
+                    'pattern': r'(password|secret|key|token)\s*=\s*["\'][^"\']{8,}["\']',
+                    'description': 'Hardcoded secret detected',
+                    'recommendation': 'Use configuration files or environment variables'
+                },
+                {
+                    'id': 'CS003',
+                    'type': 'WEAK_CRYPTO',
+                    'severity': 'MEDIUM',
+                    'pattern': r'MD5\.Create|SHA1\.Create',
+                    'description': 'Weak cryptographic hash function',
+                    'recommendation': 'Use SHA256 or stronger hash functions'
+                }
+            ],
+            'go': [
+                {
+                    'id': 'GO001',
+                    'type': 'SQL_INJECTION',
+                    'severity': 'HIGH',
+                    'pattern': r'Query\s*\(\s*["\'].*\+.*["\']',
+                    'description': 'Potential SQL injection vulnerability',
+                    'recommendation': 'Use prepared statements with placeholders'
+                },
+                {
+                    'id': 'GO002',
+                    'type': 'HARDCODED_SECRET',
+                    'severity': 'CRITICAL',
+                    'pattern': r'(password|secret|key|token)\s*:=\s*["\'][^"\']{8,}["\']',
+                    'description': 'Hardcoded secret detected',
+                    'recommendation': 'Use environment variables or configuration files'
+                },
+                {
+                    'id': 'GO003',
+                    'type': 'WEAK_CRYPTO',
+                    'severity': 'MEDIUM',
+                    'pattern': r'md5\.Sum|sha1\.Sum',
+                    'description': 'Weak cryptographic hash function',
+                    'recommendation': 'Use SHA-256 or stronger hash functions'
+                }
+            ],
+            'rust': [
+                {
+                    'id': 'RS001',
+                    'type': 'UNSAFE_CODE',
+                    'severity': 'MEDIUM',
+                    'pattern': r'unsafe\s*{',
+                    'description': 'Unsafe code block detected',
+                    'recommendation': 'Review unsafe code for memory safety issues'
+                },
+                {
+                    'id': 'RS002',
+                    'type': 'HARDCODED_SECRET',
+                    'severity': 'CRITICAL',
+                    'pattern': r'(password|secret|key|token)\s*=\s*["\'][^"\']{8,}["\']',
+                    'description': 'Hardcoded secret detected',
+                    'recommendation': 'Use environment variables or configuration files'
+                }
+            ],
+            'php': [
+                {
+                    'id': 'PHP001',
+                    'type': 'SQL_INJECTION',
+                    'severity': 'HIGH',
+                    'pattern': r'mysql_query\s*\(\s*["\'].*\$.*["\']',
+                    'description': 'Potential SQL injection vulnerability',
+                    'recommendation': 'Use prepared statements with PDO or mysqli'
+                },
+                {
+                    'id': 'PHP002',
+                    'type': 'XSS',
+                    'severity': 'HIGH',
+                    'pattern': r'echo\s+\$_GET|echo\s+\$_POST',
+                    'description': 'Potential XSS vulnerability',
+                    'recommendation': 'Use htmlspecialchars() to escape output'
+                },
+                {
+                    'id': 'PHP003',
+                    'type': 'FILE_INCLUSION',
+                    'severity': 'HIGH',
+                    'pattern': r'include\s*\(\s*\$_GET|require\s*\(\s*\$_GET',
+                    'description': 'Potential file inclusion vulnerability',
+                    'recommendation': 'Validate and sanitize file paths'
+                }
+            ],
+            'cpp': [
+                {
+                    'id': 'CPP001',
+                    'type': 'BUFFER_OVERFLOW',
+                    'severity': 'HIGH',
+                    'pattern': r'strcpy\s*\(|strcat\s*\(|sprintf\s*\(',
+                    'description': 'Potential buffer overflow vulnerability',
+                    'recommendation': 'Use safe alternatives like strncpy, strncat, snprintf'
+                },
+                {
+                    'id': 'CPP002',
+                    'type': 'MEMORY_LEAK',
+                    'severity': 'MEDIUM',
+                    'pattern': r'new\s+\w+(?!.*delete)',
+                    'description': 'Potential memory leak - new without delete',
+                    'recommendation': 'Use smart pointers or ensure proper memory management'
+                }
+            ],
+            'sql': [
+                {
+                    'id': 'SQL001',
+                    'type': 'SQL_INJECTION',
+                    'severity': 'HIGH',
+                    'pattern': r'EXEC\s*\(\s*@|sp_executesql\s*@',
+                    'description': 'Dynamic SQL execution detected',
+                    'recommendation': 'Use parameterized queries to prevent SQL injection'
+                },
+                {
+                    'id': 'SQL002',
+                    'type': 'WEAK_AUTH',
+                    'severity': 'MEDIUM',
+                    'pattern': r'password\s*=\s*["\']["\']|pwd\s*=\s*["\']["\']',
+                    'description': 'Empty password detected',
+                    'recommendation': 'Use strong passwords and secure authentication'
                 }
             ]
         }
