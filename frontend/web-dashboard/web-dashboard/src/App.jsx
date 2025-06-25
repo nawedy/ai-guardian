@@ -22,6 +22,7 @@ function App() {
   });
 
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     // Apply OmniPanelAI workspace theme
@@ -34,6 +35,60 @@ function App() {
       ? 'hsl(210 40% 98%)' 
       : 'hsl(222.2 84% 4.9%)';
   }, [isDarkMode]);
+
+  // WebSocket connection for real-time notifications
+  useEffect(() => {
+    const connectWebSocket = () => {
+      try {
+        const ws = new WebSocket('ws://localhost:8765');
+        
+        ws.onopen = () => {
+          console.log('WebSocket connected for notifications');
+        };
+        
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === 'scan_complete') {
+              setNotifications(prev => [...prev, {
+                id: Date.now(),
+                type: 'scan_complete',
+                message: `Scan completed for ${data.file_path || 'unknown file'}`,
+                timestamp: new Date(),
+                data: data
+              }]);
+            }
+          } catch (error) {
+            console.error('Error parsing WebSocket message:', error);
+          }
+        };
+        
+        ws.onclose = () => {
+          console.log('WebSocket disconnected');
+          // Attempt to reconnect after 5 seconds
+          setTimeout(connectWebSocket, 5000);
+        };
+        
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+        };
+        
+        return ws;
+      } catch (error) {
+        console.error('Failed to connect WebSocket:', error);
+        return null;
+      }
+    };
+
+    const ws = connectWebSocket();
+    
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
 
   // Navigation items
   const navigationItems = [
@@ -87,7 +142,13 @@ function App() {
               <Routes>
                 <Route 
                   path="/" 
-                  element={<Dashboard currentUser={currentUser} />} 
+                  element={
+                    <Dashboard 
+                      currentUser={currentUser} 
+                      notifications={notifications}
+                      setNotifications={setNotifications}
+                    />
+                  } 
                 />
                 <Route 
                   path="/scan-results" 

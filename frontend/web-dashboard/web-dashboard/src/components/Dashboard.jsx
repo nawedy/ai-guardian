@@ -16,7 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
-const Dashboard = ({ currentUser, notifications, setNotifications }) => {
+const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {} }) => {
   const [dashboardData, setDashboardData] = useState({
     stats: {
       totalScans: 0,
@@ -162,15 +162,15 @@ const Dashboard = ({ currentUser, notifications, setNotifications }) => {
           {notifications.slice(0, 3).map((notification) => (
             <div
               key={notification.id}
-              className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg"
+              className="flex items-center justify-between p-3 bg-app-info/10 border border-app-info/20 rounded-lg theme-card"
             >
               <div className="flex items-center space-x-3">
-                <Activity className="w-5 h-5 text-blue-600" />
+                <Activity className="w-5 h-5 text-app-info" />
                 <div>
-                  <p className="text-sm font-medium text-blue-900">
+                  <p className="text-sm font-medium visible-text">
                     {notification.message}
                   </p>
-                  <p className="text-xs text-blue-600">
+                  <p className="text-xs visible-text-muted">
                     {formatTimeAgo(notification.timestamp)}
                   </p>
                 </div>
@@ -179,7 +179,7 @@ const Dashboard = ({ currentUser, notifications, setNotifications }) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => dismissNotification(notification.id)}
-                className="text-blue-600 hover:text-blue-800"
+                className="text-app-info hover:text-app-info/80 visible-text"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -329,14 +329,14 @@ const Dashboard = ({ currentUser, notifications, setNotifications }) => {
             {dashboardData.recentScans.map((scan) => (
               <div
                 key={scan.id}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted transition-app theme-card"
               >
                 <div className="flex items-center space-x-4">
-                  <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
-                    <FileText className="w-5 h-5 text-blue-600" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg">
+                    <FileText className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900">{scan.filename}</h4>
+                    <h4 className="font-medium visible-text">{scan.filename}</h4>
                     <p className="text-sm text-gray-500">
                       Scanned {formatTimeAgo(scan.timestamp)}
                     </p>
