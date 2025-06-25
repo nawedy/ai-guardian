@@ -22,10 +22,24 @@ def test_import(module_name: str) -> Tuple[bool, str]:
 
 def verify_core_dependencies() -> List[Tuple[bool, str]]:
     """Verify core Flask and web framework dependencies."""
-    modules = [
-        'flask',
-        'flask_cors',
-        'flask_sqlalchemy',
+    # Test actual import patterns used in the code
+    results = []
+    
+    # Test Flask
+    results.append(test_import('flask'))
+    
+    # Test flask-cors using the actual import pattern from the code
+    try:
+        from flask_cors import CORS  # noqa: F401
+        results.append((True, "✅ flask_cors (from flask_cors import CORS)"))
+    except ImportError as e:
+        results.append((False, f"❌ flask_cors: {str(e)}"))
+    except Exception as e:
+        results.append((False, f"⚠️  flask_cors: {str(e)}"))
+    
+    # Test other modules
+    other_modules = [
+        'flask_sqlalchemy',  # installed as Flask-SQLAlchemy
         'werkzeug',
         'jinja2',
         'markupsafe',
@@ -33,7 +47,9 @@ def verify_core_dependencies() -> List[Tuple[bool, str]]:
         'blinker',
         'click'
     ]
-    return [test_import(module) for module in modules]
+    results.extend([test_import(module) for module in other_modules])
+    
+    return results
 
 
 def verify_database_dependencies() -> List[Tuple[bool, str]]:
