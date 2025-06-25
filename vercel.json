@@ -5,8 +5,8 @@
       "destination": "/index.html"
     }
   ],
-  "installCommand": "cd frontend/web-dashboard/web-dashboard && pnpm install",
-  "buildCommand": "cd frontend/web-dashboard/web-dashboard && pnpm run build",
+  "installCommand": "cd frontend/web-dashboard/web-dashboard && npm install --legacy-peer-deps",
+  "buildCommand": "cd frontend/web-dashboard/web-dashboard && npm run build",
   "outputDirectory": "frontend/web-dashboard/web-dashboard/dist",
   "framework": "vite"
 } 
