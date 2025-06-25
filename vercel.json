@@ -1,52 +1,6 @@
 {
   "framework": "vite",
-  "buildCommand": "cd frontend/web-dashboard/web-dashboard && pnpm build",
+  "buildCommand": "cd frontend/web-dashboard/web-dashboard && npm run build",
   "outputDirectory": "frontend/web-dashboard/web-dashboard/dist",
-  "installCommand": "cd frontend/web-dashboard/web-dashboard && pnpm install",
-  "functions": {
-    "api/*.py": {
-      "runtime": "@vercel/python"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/scan",
-      "destination": "/api/scan.py"
-    },
-    {
-      "source": "/api/learn/(.*)",
-      "destination": "/api/learn.py"
-    },
-    {
-      "source": "/api/feedback",
-      "destination": "/api/feedback.py"
-    },
-    {
-      "source": "/api/monitor/(.*)",
-      "destination": "/api/monitor.py"
-    },
-    {
-      "source": "/api/compliance/(.*)",
-      "destination": "/api/compliance.py"
-    },
-    {
-      "source": "/api/health",
-      "destination": "/api/health.py"
-    }
-  ],
-  "env": {
-    "SECRET_KEY": "@secret_key",
-    "DATABASE_URL": "@database_url",
-    "NEON_PROJECT_ID": "@neon_project_id"
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
-      ]
-    }
-  ]
+  "installCommand": "cd frontend/web-dashboard/web-dashboard && npm install"
 } 
