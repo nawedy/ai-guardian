@@ -30,12 +30,14 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
   });
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch dashboard data
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
+        setError(null);
         
         // Simulate API calls to get dashboard data
         const mockData = {
@@ -89,9 +91,23 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
           ]
         };
         
-        setDashboardData(mockData);
+        // Ensure all arrays are properly initialized
+        setDashboardData({
+          stats: mockData.stats || { totalScans: 0, vulnerabilitiesFound: 0, criticalIssues: 0, fixedIssues: 0 },
+          recentScans: Array.isArray(mockData.recentScans) ? mockData.recentScans : [],
+          vulnerabilityTrends: Array.isArray(mockData.vulnerabilityTrends) ? mockData.vulnerabilityTrends : [],
+          severityDistribution: Array.isArray(mockData.severityDistribution) ? mockData.severityDistribution : []
+        });
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
+        setError('Failed to load dashboard data');
+        // Set safe fallback data
+        setDashboardData({
+          stats: { totalScans: 0, vulnerabilitiesFound: 0, criticalIssues: 0, fixedIssues: 0 },
+          recentScans: [],
+          vulnerabilityTrends: [],
+          severityDistribution: []
+        });
       } finally {
         setLoading(false);
       }
@@ -132,24 +148,35 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full visible-text">
+        <div className="text-center">
+          <p className="text-app-error mb-4">{error}</p>
+          <p className="visible-text-muted">Running in demo mode with sample data</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6 space-y-6 visible-text">
+    <div className="p-6 space-y-6 text-high-contrast">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold visible-text">Security Dashboard</h1>
-          <p className="visible-text-muted mt-1">
+          <h1 className="text-3xl font-bold visible-text-bold">Security Dashboard</h1>
+          <p className="text-medium-contrast mt-1">
             Welcome back, {currentUser.name}. Here's your security overview.
           </p>
         </div>
         
         {/* Notifications */}
-        {notifications.length > 0 && (
+        {(notifications || []).length > 0 && (
           <div className="relative">
             <Button variant="outline" className="relative">
               <Bell className="w-4 h-4" />
               <Badge className="absolute -top-2 -right-2 px-1 min-w-[1.25rem] h-5">
-                {notifications.length}
+                {(notifications || []).length}
               </Badge>
             </Button>
           </div>
@@ -157,9 +184,9 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
       </div>
 
       {/* Notifications Panel */}
-      {notifications.length > 0 && (
+      {(notifications || []).length > 0 && (
         <div className="space-y-2">
-          {notifications.slice(0, 3).map((notification) => (
+          {(notifications || []).slice(0, 3).map((notification) => (
             <div
               key={notification.id}
               className="flex items-center justify-between p-3 bg-app-info/10 border border-app-info/20 rounded-lg theme-card"
@@ -167,10 +194,10 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
               <div className="flex items-center space-x-3">
                 <Activity className="w-5 h-5 text-app-info" />
                 <div>
-                  <p className="text-sm font-medium visible-text">
+                  <p className="text-sm font-medium text-high-contrast">
                     {notification.message}
                   </p>
-                  <p className="text-xs visible-text-muted">
+                  <p className="text-xs text-medium-contrast">
                     {formatTimeAgo(notification.timestamp)}
                   </p>
                 </div>
@@ -179,7 +206,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => dismissNotification(notification.id)}
-                className="text-app-info hover:text-app-info/80 visible-text"
+                className="text-app-info hover:text-app-info/80 text-high-contrast"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -255,7 +282,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={dashboardData.vulnerabilityTrends}>
+              <LineChart data={dashboardData.vulnerabilityTrends || []}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="date" 
@@ -296,7 +323,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={dashboardData.severityDistribution}
+                  data={dashboardData.severityDistribution || []}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -305,7 +332,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {dashboardData.severityDistribution.map((entry, index) => (
+                  {(dashboardData.severityDistribution || []).map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -326,7 +353,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {dashboardData.recentScans.map((scan) => (
+            {(dashboardData.recentScans || []).map((scan) => (
               <div
                 key={scan.id}
                 className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted transition-app theme-card"
@@ -336,8 +363,8 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
                     <FileText className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-medium visible-text">{scan.filename}</h4>
-                    <p className="text-sm text-gray-500">
+                    <h4 className="font-medium text-high-contrast">{scan.filename}</h4>
+                    <p className="text-sm text-medium-contrast">
                       Scanned {formatTimeAgo(scan.timestamp)}
                     </p>
                   </div>
@@ -347,7 +374,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
                   <Badge className={getSeverityColor(scan.severity)}>
                     {scan.severity}
                   </Badge>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-medium-contrast">
                     {scan.vulnerabilities} issues
                   </span>
                   <Badge variant="outline" className="text-green-600 border-green-200">

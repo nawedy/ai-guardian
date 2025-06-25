@@ -5,78 +5,78 @@
     --font-inter: 'Inter', sans-serif;
     --font-jetbrains-mono: 'JetBrains Mono', monospace;
     
-    /* Light theme colors - OmniPanelAI Workspace Theme */
+    /* Light theme colors - OmniPanelAI Workspace Theme - Enhanced Contrast */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222.2 84% 8%;  /* Darker for better contrast */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222.2 84% 8%;  /* Darker text on cards */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
+    --popover-foreground: 222.2 84% 8%;
+    --primary: 222.2 47.4% 15%;  /* Slightly darker primary */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 222.2 47.4% 15%;  /* Darker secondary text */
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 215.4 16.3% 35%;  /* Darker from 46.9% to 35% for better visibility */
     --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
+    --accent-foreground: 222.2 47.4% 15%;
+    --destructive: 0 84.2% 50%;  /* Slightly darker red */
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
+    --border: 214.3 31.8% 85%;  /* Darker border for better definition */
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 12 76% 51%;  /* Slightly darker chart colors for better contrast */
+    --chart-2: 173 58% 29%;
+    --chart-3: 197 37% 20%;
+    --chart-4: 43 74% 56%;
+    --chart-5: 27 87% 57%;
 
-    /* AI Guardian specific colors - matching OmniPanelAI */
-    --app-primary: 222.2 47.4% 11.2%;
+    /* AI Guardian specific colors - Enhanced for better visibility */
+    --app-primary: 222.2 47.4% 15%;  /* Darker primary */
     --app-secondary: 217.2 32.6% 17.5%;
     --app-accent: 210 40% 96.1%;
-    --app-success: 173 58% 39%;
-    --app-warning: 43 74% 66%;
-    --app-error: 0 84.2% 60.2%;
-    --app-info: 220 70% 50%;
+    --app-success: 173 58% 35%;  /* Darker green */
+    --app-warning: 43 74% 50%;  /* Darker yellow */
+    --app-error: 0 84.2% 50%;  /* Darker red */
+    --app-info: 220 70% 40%;  /* Darker blue */
   }
 
   .dark {
-    /* Dark theme colors - OmniPanelAI Workspace Theme */
+    /* Dark theme colors - OmniPanelAI Workspace Theme - Enhanced Contrast */
     --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
+    --foreground: 0 0% 95%;  /* Increased from 98% to 95% for better contrast */
+    --card: 217.2 32.6% 8.5%;  /* Slightly lighter for better contrast */
+    --card-foreground: 0 0% 92%;  /* High contrast white */
+    --popover: 217.2 32.6% 8.5%;
+    --popover-foreground: 0 0% 92%;
+    --primary: 0 0% 95%;  /* Pure white for maximum contrast */
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary-foreground: 0 0% 88%;  /* Higher contrast */
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted-foreground: 215 20.2% 75%;  /* Increased from 65.1% to 75% for better visibility */
     --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
+    --accent-foreground: 0 0% 92%;
+    --destructive: 0 62.8% 50%;  /* Brighter red */
+    --destructive-foreground: 0 0% 95%;
+    --border: 217.2 32.6% 25%;  /* Lighter border for better visibility */
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 220 70% 60%;  /* Brighter chart colors */
+    --chart-2: 160 60% 55%;
+    --chart-3: 30 80% 65%;
+    --chart-4: 280 65% 70%;
+    --chart-5: 340 75% 65%;
 
-    /* AI Guardian specific dark colors - matching OmniPanelAI */
-    --app-primary: 210 40% 98%;
+    /* AI Guardian specific dark colors - Enhanced for better visibility */
+    --app-primary: 0 0% 95%;  /* Pure white for maximum contrast */
     --app-secondary: 217.2 32.6% 17.5%;
     --app-accent: 217.2 32.6% 17.5%;
-    --app-success: 160 60% 45%;
-    --app-warning: 30 80% 55%;
-    --app-error: 0 62.8% 30.6%;
-    --app-info: 220 70% 50%;
+    --app-success: 160 60% 55%;  /* Brighter green */
+    --app-warning: 30 80% 65%;  /* Brighter yellow */
+    --app-error: 0 62.8% 50%;  /* Brighter red */
+    --app-info: 220 70% 60%;  /* Brighter blue */
   }
 
   /* Base element styling with proper contrast */
@@ -253,13 +253,36 @@
                 color 0.2s ease-in-out;
   }
 
-  /* Ensure proper visibility in both themes */
+  /* Enhanced text visibility utilities for better contrast */
   .visible-text {
     color: hsl(var(--foreground)) !important;
+    font-weight: 400;
   }
 
   .visible-text-muted {
     color: hsl(var(--muted-foreground)) !important;
+    font-weight: 400;
+  }
+
+  .visible-text-bold {
+    color: hsl(var(--foreground)) !important;
+    font-weight: 600;
+  }
+
+  .visible-text-strong {
+    color: hsl(var(--primary)) !important;
+    font-weight: 500;
+  }
+
+  /* High contrast text utilities */
+  .text-high-contrast {
+    color: hsl(var(--foreground)) !important;
+    font-weight: 500;
+  }
+
+  .text-medium-contrast {
+    color: hsl(var(--muted-foreground)) !important;
+    font-weight: 400;
   }
 
   /* Card styling with proper contrast */

@@ -36,14 +36,25 @@ function App() {
       : 'hsl(222.2 84% 4.9%)';
   }, [isDarkMode]);
 
-  // WebSocket connection for real-time notifications
+  // WebSocket connection for real-time notifications (optional - backend not required)
   useEffect(() => {
+    let ws = null;
+    let retryCount = 0;
+    const maxRetries = 3; // Limit retries to prevent infinite loops
+
     const connectWebSocket = () => {
+      // Only attempt connection if we haven't exceeded max retries
+      if (retryCount >= maxRetries) {
+        console.log('Max WebSocket retry attempts reached. Backend may not be available.');
+        return null;
+      }
+
       try {
-        const ws = new WebSocket('ws://localhost:8765');
+        ws = new WebSocket('ws://localhost:8765');
         
         ws.onopen = () => {
           console.log('WebSocket connected for notifications');
+          retryCount = 0; // Reset retry count on successful connection
         };
         
         ws.onmessage = (event) => {
@@ -66,22 +77,32 @@ function App() {
         
         ws.onclose = () => {
           console.log('WebSocket disconnected');
-          // Attempt to reconnect after 5 seconds
-          setTimeout(connectWebSocket, 5000);
+          retryCount++;
+          
+          // Only retry if we haven't exceeded max retries
+          if (retryCount < maxRetries) {
+            console.log(`Attempting to reconnect... (${retryCount}/${maxRetries})`);
+            setTimeout(connectWebSocket, 5000);
+          } else {
+            console.log('WebSocket connection failed. Running in offline mode.');
+          }
         };
         
         ws.onerror = (error) => {
-          console.error('WebSocket error:', error);
+          console.log('WebSocket connection failed - backend may not be available');
+          retryCount++;
         };
         
         return ws;
       } catch (error) {
-        console.error('Failed to connect WebSocket:', error);
+        console.log('WebSocket not available - running in offline mode');
+        retryCount = maxRetries; // Stop retrying
         return null;
       }
     };
 
-    const ws = connectWebSocket();
+    // Attempt initial connection
+    ws = connectWebSocket();
     
     return () => {
       if (ws) {
@@ -127,7 +148,7 @@ function App() {
   return (
     <div className={`min-h-screen transition-app ${isDarkMode ? 'dark' : ''}`}>
       <Router>
-        <div className="flex bg-background text-foreground visible-text">
+        <div className="flex bg-background text-foreground text-high-contrast">
           {/* Sidebar */}
           <Sidebar 
             currentUser={currentUser} 
@@ -137,7 +158,7 @@ function App() {
           />
           
           {/* Main Content */}
-          <main className="flex-1 bg-background visible-text">
+          <main className="flex-1 bg-background text-high-contrast">
             <div className="bg-app-gradient min-h-screen">
               <Routes>
                 <Route 

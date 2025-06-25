@@ -60,8 +60,8 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
             <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-lg font-bold visible-text">AI Guardian</h1>
-            <p className="text-xs visible-text-muted">OmniPanelAI Integration</p>
+            <h1 className="text-lg font-bold visible-text-bold">AI Guardian</h1>
+            <p className="text-xs text-medium-contrast">OmniPanelAI Integration</p>
           </div>
         </div>
         
@@ -70,7 +70,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
           variant="ghost"
           size="sm"
           onClick={() => setIsDarkMode(!isDarkMode)}
-          className="p-2 hover:bg-muted transition-app visible-text-muted hover:visible-text"
+          className="p-2 hover:bg-muted transition-app text-medium-contrast hover:text-high-contrast"
           title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
           {isDarkMode ? (
@@ -95,7 +95,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-app ${
                     isActive
                       ? 'bg-primary text-primary-foreground border border-border shadow-app-sm'
-                      : 'visible-text-muted hover:bg-muted hover:visible-text'
+                      : 'text-medium-contrast hover:bg-muted hover:text-high-contrast'
                   }`}
                 >
                   <Icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : ''}`} />
@@ -121,14 +121,14 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
                   className="w-8 h-8 rounded-full object-cover"
                 />
               ) : (
-                <User className="w-4 h-4 visible-text-muted" />
+                <User className="w-4 h-4 text-medium-contrast" />
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium visible-text truncate">
+              <p className="text-sm font-medium text-high-contrast truncate">
                 {currentUser.name}
               </p>
-              <p className="text-xs visible-text-muted truncate">
+              <p className="text-xs text-medium-contrast truncate">
                 {currentUser.role}
               </p>
             </div>
@@ -137,7 +137,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start visible-text-muted hover:visible-text hover:bg-muted transition-app"
+            className="w-full justify-start text-medium-contrast hover:text-high-contrast hover:bg-muted transition-app"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
