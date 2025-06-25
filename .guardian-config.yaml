@@ -1,0 +1,66 @@
+version: 1.0
+platform: standalone
+scan:
+  languages: [javascript, python, java, csharp, go, rust]
+  rules:
+    - id: xss-001
+      severity: high
+      enabled: true
+      suppress: false
+    - id: sql-injection-002
+      severity: critical
+      enabled: true
+      suppress: false
+    - id: secret-003
+      severity: medium
+      enabled: true
+      suppress: false
+    - id: csrf-004
+      severity: high
+      enabled: true
+      suppress: false
+  real_time: true
+  background_interval: 600  # 10 minutes
+  cache_results: true
+
+remediation:
+  auto_apply: false
+  show_diff: true
+  max_log_size: 1000
+  backup_before_fix: true
+  rollback_timeout: 30  # seconds
+
+analysis:
+  project_context: true
+  dependency_scan: true
+  business_logic_detection: true
+  nvd_update_interval: 86400  # 24 hours
+
+learning:
+  pattern_learning: true
+  preference_sync: false  # team sync disabled for free tier
+  false_positive_threshold: 0.05
+  feedback_collection: true
+
+api:
+  endpoint: "http://localhost:5000"
+  timeout: 30
+  retry_attempts: 3
+  rate_limit: 100  # requests per minute
+
+security:
+  encrypt_local_data: true
+  offline_mode: false
+  data_retention_days: 90
+
+notifications:
+  critical_alerts: true
+  email_notifications: false
+  slack_webhook: ""
+  teams_webhook: ""
+
+ui:
+  theme: "auto"  # auto, light, dark
+  show_tooltips: true
+  compact_mode: false
+

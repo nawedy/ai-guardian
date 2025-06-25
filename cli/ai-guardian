@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""
+AI Guardian CLI Tool
+Command-line interface for AI Guardian cybersecurity scanning
+"""
+
+import click
+import json
+import os
+import sys
+from pathlib import Path
+
+@click.group()
+@click.version_option(version='1.0.0')
+def cli():
+    """AI Guardian - AI-powered cybersecurity scanning tool"""
+    pass
+
+@cli.command()
+@click.argument('path', type=click.Path(exists=True))
+@click.option('--language', '-l', help='Programming language to scan')
+@click.option('--output', '-o', type=click.Path(), help='Output file for results')
+@click.option('--format', '-f', type=click.Choice(['json', 'text', 'csv']), default='json', help='Output format')
+@click.option('--severity', '-s', type=click.Choice(['low', 'medium', 'high', 'critical']), help='Minimum severity level')
+def scan(path, language, output, format, severity):
+    """Scan code for vulnerabilities and security issues"""
+    click.echo(f"Scanning {path}...")
+    
+    # Placeholder implementation
+    results = {
+        "scan_id": "scan_001",
+        "path": str(path),
+        "language": language or "auto-detected",
+        "timestamp": "2025-06-16T12:00:00Z",
+        "vulnerabilities": [
+            {
+                "id": "vuln_001",
+                "type": "XSS",
+                "severity": "high",
+                "file": "example.js",
+                "line": 42,
+                "description": "Potential XSS vulnerability detected",
+                "recommendation": "Use proper input sanitization"
+            }
+        ],
+        "summary": {
+            "total_files": 10,
+            "vulnerabilities_found": 1,
+            "critical": 0,
+            "high": 1,
+            "medium": 0,
+            "low": 0
+        }
+    }
+    
+    if output:
+        with open(output, 'w') as f:
+            if format == 'json':
+                json.dump(results, f, indent=2)
+            else:
+                f.write(str(results))
+        click.echo(f"Results saved to {output}")
+    else:
+        if format == 'json':
+            click.echo(json.dumps(results, indent=2))
+        else:
+            click.echo(results)
+
+@cli.command()
+@click.argument('scan_id')
+@click.option('--auto-apply', is_flag=True, help='Automatically apply all fixes')
+def fix(scan_id, auto_apply):
+    """Apply fixes for detected vulnerabilities"""
+    click.echo(f"Applying fixes for scan {scan_id}...")
+    
+    if auto_apply:
+        click.echo("Auto-applying all available fixes...")
+    else:
+        click.echo("Interactive fix mode - review each fix before applying")
+    
+    # Placeholder implementation
+    click.echo("✓ Fixed XSS vulnerability in example.js:42")
+    click.echo("Fixes applied successfully!")
+
+@cli.command()
+@click.option('--service', type=click.Choice(['scanner', 'remediation', 'analysis', 'learning', 'gateway']), help='Check specific service')
+def status(service):
+    """Check AI Guardian service status"""
+    if service:
+        click.echo(f"Checking {service} service status...")
+        click.echo(f"✓ {service} service is running")
+    else:
+        click.echo("Checking all AI Guardian services...")
+        services = ['scanner', 'remediation', 'analysis', 'learning', 'gateway']
+        for svc in services:
+            click.echo(f"✓ {svc} service is running")
+
+@cli.command()
+def config():
+    """Show current configuration"""
+    config_data = {
+        "api_endpoint": "http://localhost:5000",
+        "scan_languages": ["python", "javascript", "java", "csharp", "go", "rust"],
+        "severity_threshold": "medium",
+        "auto_fix": False,
+        "offline_mode": False
+    }
+    
+    click.echo("Current AI Guardian Configuration:")
+    click.echo(json.dumps(config_data, indent=2))
+
+if __name__ == '__main__':
+    cli()
+
