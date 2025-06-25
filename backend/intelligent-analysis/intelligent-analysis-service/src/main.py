@@ -35,6 +35,23 @@ def serve(path):
         else:
             return "index.html not found", 404
 
+@app.route('/health')
+def health():
+    """Production health check endpoint"""
+    try:
+        # Test database connection (SQLAlchemy 2.x compatible)
+        with app.app_context():
+            from sqlalchemy import text
+            with db.engine.connect() as connection:
+                connection.execute(text("SELECT 1"))
+        return {
+            'status': 'healthy', 
+            'service': 'ai-guardian-intelligent-analysis',
+            'version': '1.0.0'
+        }
+    except Exception as e:
+        return {'status': 'unhealthy', 'error': str(e)}, 503
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.getenv('PORT', 5004))
+    app.run(host='0.0.0.0', port=port, debug=False)

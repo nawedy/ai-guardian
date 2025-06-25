@@ -93,9 +93,11 @@ def serve(path):
 def health():
     """Production health check endpoint"""
     try:
-        # Test database connection
+        # Test database connection (SQLAlchemy 2.x compatible)
         with app.app_context():
-            db.engine.execute("SELECT 1")
+            from sqlalchemy import text
+            with db.engine.connect() as connection:
+                connection.execute(text("SELECT 1"))
         return {
             'status': 'healthy', 
             'service': 'ai-guardian-api-gateway',
