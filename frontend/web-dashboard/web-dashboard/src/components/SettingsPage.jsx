@@ -295,7 +295,7 @@ const SettingsPage = ({ currentUser, updateUserProfile }) => {
         <div className="space-y-6 flex flex-col items-center">
           {/* Profile Settings */}
           <div className="w-full flex justify-center">
-            <Card className="glass-effect shadow-app-lg w-full max-w-3xl border-0">
+            <Card className="neomorph-card w-full max-w-3xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-high-contrast">
                   <User className="w-5 h-5 mr-2" />
@@ -512,7 +512,7 @@ const SettingsPage = ({ currentUser, updateUserProfile }) => {
           </div>
           {/* Notification Settings */}
           <div className="w-full flex justify-center">
-            <Card className="glass-effect shadow-app-lg w-full max-w-3xl border-0">
+            <Card className="neomorph-card w-full max-w-3xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-high-contrast">
                   <Bell className="w-5 h-5 mr-2" />
@@ -585,7 +585,7 @@ const SettingsPage = ({ currentUser, updateUserProfile }) => {
           </div>
           {/* Integration Settings */}
           <div className="w-full flex justify-center">
-            <Card className="glass-effect shadow-app-lg w-full max-w-3xl border-0">
+            <Card className="neomorph-card w-full max-w-3xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-high-contrast">
                   <Globe className="w-5 h-5 mr-2" />
@@ -677,7 +677,7 @@ const SettingsPage = ({ currentUser, updateUserProfile }) => {
           </div>
           {/* Security Settings */}
           <div className="w-full flex justify-center">
-            <Card className="glass-effect shadow-app-lg w-full max-w-3xl border-0">
+            <Card className="neomorph-card w-full max-w-3xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-high-contrast">
                   <Shield className="w-5 h-5 mr-2" />
@@ -728,7 +728,7 @@ const SettingsPage = ({ currentUser, updateUserProfile }) => {
           </div>
           {/* Scanning Preferences */}
           <div className="w-full flex justify-center">
-            <Card className="glass-effect shadow-app-lg w-full max-w-3xl border-0">
+            <Card className="neomorph-card w-full max-w-3xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-high-contrast">
                   <Database className="w-5 h-5 mr-2" />

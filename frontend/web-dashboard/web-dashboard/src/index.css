@@ -314,4 +314,47 @@
     border-color: hsl(var(--ring));
     outline: 2px solid hsl(var(--ring) / 0.2);
   }
+
+  /* Neomorphism card effect */
+  .neomorph-card {
+    background: hsl(var(--card));
+    border-radius: 1.25rem;
+    box-shadow:
+      8px 8px 24px 0 hsl(var(--background) / 0.18),
+      -8px -8px 24px 0 hsl(var(--foreground) / 0.08),
+      1px 1px 2px 0 hsl(var(--background) / 0.12) inset,
+      -1px -1px 2px 0 hsl(var(--foreground) / 0.06) inset;
+    border: none !important;
+    transition: box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), background 0.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .neomorph-card:hover {
+    box-shadow:
+      12px 12px 32px 0 hsl(var(--background) / 0.22),
+      -12px -12px 32px 0 hsl(var(--foreground) / 0.10),
+      2px 2px 4px 0 hsl(var(--background) / 0.16) inset,
+      -2px -2px 4px 0 hsl(var(--foreground) / 0.09) inset;
+    background: hsl(var(--muted) / 0.95);
+  }
+
+  /* Update glass-effect and shadow-app-lg for neomorphism */
+  .glass-effect, .shadow-app-lg {
+    background: hsl(var(--card));
+    border-radius: 1.25rem;
+    box-shadow:
+      8px 8px 24px 0 hsl(var(--background) / 0.18),
+      -8px -8px 24px 0 hsl(var(--foreground) / 0.08),
+      1px 1px 2px 0 hsl(var(--background) / 0.12) inset,
+      -1px -1px 2px 0 hsl(var(--foreground) / 0.06) inset;
+    border: none !important;
+    backdrop-filter: blur(8px) saturate(1.1);
+    transition: box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), background 0.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .glass-effect:hover, .shadow-app-lg:hover {
+    box-shadow:
+      12px 12px 32px 0 hsl(var(--background) / 0.22),
+      -12px -12px 32px 0 hsl(var(--foreground) / 0.10),
+      2px 2px 4px 0 hsl(var(--background) / 0.16) inset,
+      -2px -2px 4px 0 hsl(var(--foreground) / 0.09) inset;
+    background: hsl(var(--muted) / 0.95);
+  }
 }
