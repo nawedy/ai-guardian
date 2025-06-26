@@ -1,13 +1,13 @@
 import os
 import sys
 from sqlalchemy import text
+from flask import Flask, send_from_directory
+from src.models.user import db
+from src.routes.user import user_bp
 
 # DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from flask import Flask, send_from_directory
-from src.models.user import db
-from src.routes.user import user_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -20,6 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -37,6 +38,7 @@ def serve(path):
         else:
             return "index.html not found", 404
 
+
 @app.route('/health')
 def health():
     """Production health check endpoint"""
@@ -52,6 +54,7 @@ def health():
         }
     except Exception as e:
         return {'status': 'unhealthy', 'error': str(e)}, 503
+
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5005))

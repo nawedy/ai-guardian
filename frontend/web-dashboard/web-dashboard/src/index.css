@@ -12,71 +12,78 @@
     --card-foreground: 222.2 84% 8%;  /* Darker text on cards */
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 8%;
-    --primary: 222.2 47.4% 15%;  /* Slightly darker primary */
+    --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 15%;  /* Darker secondary text */
-    --muted: 210 40% 96.1%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 8%;
+    --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 35%;  /* Darker from 46.9% to 35% for better visibility */
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 15%;
-    --destructive: 0 84.2% 50%;  /* Slightly darker red */
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 8%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 85%;  /* Darker border for better definition */
+    --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
-    --chart-1: 12 76% 51%;  /* Slightly darker chart colors for better contrast */
-    --chart-2: 173 58% 29%;
-    --chart-3: 197 37% 20%;
-    --chart-4: 43 74% 56%;
-    --chart-5: 27 87% 57%;
+    --chart-1: 12 76% 61%;  /* Slightly darker chart colors for better contrast */
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
 
     /* AI Guardian specific colors - Enhanced for better visibility */
-    --app-primary: 222.2 47.4% 15%;  /* Darker primary */
-    --app-secondary: 217.2 32.6% 17.5%;
-    --app-accent: 210 40% 96.1%;
-    --app-success: 173 58% 35%;  /* Darker green */
-    --app-warning: 43 74% 50%;  /* Darker yellow */
-    --app-error: 0 84.2% 50%;  /* Darker red */
-    --app-info: 220 70% 40%;  /* Darker blue */
+    --app-primary: 222.2 47.4% 11.2%;
+    --app-secondary: 210 40% 96%;
+    --app-accent: 45 93% 47%;
+    --app-accent-secondary: 20 91% 48%;
+    --app-success: 142 71% 45%;
+    --app-warning: 45 93% 47%;
+    --app-error: 0 84% 50%;
+    --app-info: 217 91% 60%;
+
+    /* Background variations */
+    --app-bg-primary: var(--background);
+    --app-bg-secondary: var(--muted);
+    --app-bg-tertiary: var(--card);
   }
 
   .dark {
     /* Dark theme colors - OmniPanelAI Workspace Theme - Enhanced Contrast */
     --background: 222.2 84% 4.9%;
     --foreground: 0 0% 95%;  /* Increased from 98% to 95% for better contrast */
-    --card: 217.2 32.6% 8.5%;  /* Slightly lighter for better contrast */
-    --card-foreground: 0 0% 92%;  /* High contrast white */
-    --popover: 217.2 32.6% 8.5%;
-    --popover-foreground: 0 0% 92%;
-    --primary: 0 0% 95%;  /* Pure white for maximum contrast */
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 95%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 0 0% 88%;  /* Higher contrast */
+    --secondary-foreground: 0 0% 95%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 75%;  /* Increased from 65.1% to 75% for better visibility */
     --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 0 0% 92%;
-    --destructive: 0 62.8% 50%;  /* Brighter red */
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 95%;
-    --border: 217.2 32.6% 25%;  /* Lighter border for better visibility */
+    --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 60%;  /* Brighter chart colors */
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
+    --chart-1: 220 70% 50%;  /* Brighter chart colors */
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
 
     /* AI Guardian specific dark colors - Enhanced for better visibility */
-    --app-primary: 0 0% 95%;  /* Pure white for maximum contrast */
+    --app-primary: 210 40% 98%;
     --app-secondary: 217.2 32.6% 17.5%;
-    --app-accent: 217.2 32.6% 17.5%;
-    --app-success: 160 60% 55%;  /* Brighter green */
-    --app-warning: 30 80% 65%;  /* Brighter yellow */
-    --app-error: 0 62.8% 50%;  /* Brighter red */
-    --app-info: 220 70% 60%;  /* Brighter blue */
+    --app-accent: 45 93% 47%;
+    --app-accent-secondary: 20 91% 48%;
+    --app-success: 142 71% 45%;
+    --app-warning: 45 93% 47%;
+    --app-error: 0 84% 60%;
+    --app-info: 217 91% 60%;
   }
 
   /* Base element styling with proper contrast */
@@ -95,14 +102,17 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-variation-settings: normal;
   }
 
   /* Ensure all text elements have proper contrast */
   h1, h2, h3, h4, h5, h6 {
     color: hsl(var(--foreground));
+    font-weight: 600;
   }
 
-  p, span, div {
+  p, span, div, label {
     color: hsl(var(--foreground));
   }
 
@@ -217,8 +227,7 @@
   .bg-app-gradient { 
     background: linear-gradient(135deg, 
       hsl(var(--background)) 0%, 
-      hsl(var(--card)) 50%, 
-      hsl(var(--background)) 100%
+      hsl(var(--muted) / 0.5) 100%
     );
     color: hsl(var(--foreground));
   }
@@ -226,7 +235,7 @@
   .bg-app-card-gradient { 
     background: linear-gradient(135deg, 
       hsl(var(--card)) 0%, 
-      hsl(var(--muted)) 100%
+      hsl(var(--muted) / 0.8) 100%
     );
     color: hsl(var(--card-foreground));
   }
@@ -237,31 +246,26 @@
   }
   
   .shadow-app { 
-    box-shadow: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 
-                0 1px 2px -1px hsl(var(--foreground) / 0.1);
+    box-shadow: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 
+                0 2px 4px -1px hsl(var(--foreground) / 0.06);
   }
   
-  .shadow-app-md { 
-    box-shadow: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 
-                0 2px 4px -2px hsl(var(--foreground) / 0.1);
+  .shadow-app-lg {
+    box-shadow: 0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -2px hsl(var(--foreground) / 0.05);
   }
 
   /* Animation utilities for smooth transitions */
   .transition-app { 
-    transition: background-color 0.2s ease-in-out, 
-                border-color 0.2s ease-in-out, 
-                color 0.2s ease-in-out;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Enhanced text visibility utilities for better contrast */
   .visible-text {
     color: hsl(var(--foreground)) !important;
-    font-weight: 400;
   }
 
   .visible-text-muted {
     color: hsl(var(--muted-foreground)) !important;
-    font-weight: 400;
   }
 
   .visible-text-bold {
@@ -270,8 +274,8 @@
   }
 
   .visible-text-strong {
-    color: hsl(var(--primary)) !important;
-    font-weight: 500;
+    color: hsl(var(--foreground)) !important;
+    font-weight: 700;
   }
 
   /* High contrast text utilities */
@@ -285,10 +289,29 @@
     font-weight: 400;
   }
 
+  .text-low-contrast {
+    color: hsl(var(--muted-foreground) / 0.7) !important;
+  }
+
   /* Card styling with proper contrast */
   .theme-card {
     background-color: hsl(var(--card));
     color: hsl(var(--card-foreground));
     border: 1px solid hsl(var(--border));
+  }
+
+  .theme-card:hover {
+    background-color: hsl(var(--muted) / 0.5);
+  }
+
+  .theme-input {
+    background-color: hsl(var(--input));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+
+  .theme-input:focus {
+    border-color: hsl(var(--ring));
+    outline: 2px solid hsl(var(--ring) / 0.2);
   }
 }

@@ -52,7 +52,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
   ];
 
   return (
-    <div className="w-64 h-screen bg-card border-r border-border flex flex-col theme-card">
+    <div className="w-64 h-full bg-card border-r border-border flex flex-col theme-card">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center space-x-3">
@@ -60,7 +60,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
             <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-lg font-bold visible-text-bold">AI Guardian</h1>
+            <h1 className="text-lg font-bold text-high-contrast">AI Guardian</h1>
             <p className="text-xs text-medium-contrast">OmniPanelAI Integration</p>
           </div>
         </div>
@@ -82,7 +82,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-4 overflow-y-auto">
         <ul className="space-y-2">
           {navigationItems.map((item) => {
             const Icon = item.icon;
@@ -95,11 +95,11 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-app ${
                     isActive
                       ? 'bg-primary text-primary-foreground border border-border shadow-app-sm'
-                      : 'text-medium-contrast hover:bg-muted hover:text-high-contrast'
+                      : 'text-high-contrast hover:bg-muted hover:text-high-contrast'
                   }`}
                 >
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : ''}`} />
-                  <span className={`font-medium ${isActive ? 'text-primary-foreground' : ''}`}>
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : 'text-high-contrast'}`} />
+                  <span className={`font-medium ${isActive ? 'text-primary-foreground' : 'text-high-contrast'}`}>
                     {item.label}
                   </span>
                 </Link>
@@ -113,15 +113,15 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
       <div className="border-t border-border p-4">
         <div className="space-y-3">
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-full">
+            <div className="flex items-center justify-center w-10 h-10 bg-muted rounded-full">
               {currentUser.avatar ? (
                 <img 
                   src={currentUser.avatar} 
                   alt={currentUser.name}
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-10 h-10 rounded-full object-cover"
                 />
               ) : (
-                <User className="w-4 h-4 text-medium-contrast" />
+                <User className="w-5 h-5 text-medium-contrast" />
               )}
             </div>
             <div className="flex-1 min-w-0">
@@ -129,7 +129,7 @@ const Sidebar = ({ currentUser, isDarkMode, setIsDarkMode }) => {
                 {currentUser.name}
               </p>
               <p className="text-xs text-medium-contrast truncate">
-                {currentUser.role}
+                {currentUser.title || currentUser.role}
               </p>
             </div>
           </div>

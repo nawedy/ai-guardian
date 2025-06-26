@@ -13,16 +13,43 @@ import SettingsPage from './components/SettingsPage';
 import VulnerabilityDetails from './components/VulnerabilityDetails';
 
 function App() {
-  const [currentUser] = useState({
+  const [currentUser, setCurrentUser] = useState({
     id: 1,
     name: 'John Doe',
     email: 'john.doe@company.com',
     role: 'Security Manager',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+    title: 'Senior Security Engineer',
+    phone: '+1 (555) 123-4567',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    notifications: {
+      email: true,
+      sms: true,
+      slack: false,
+      teams: false
+    },
+    integrations: {
+      slack: {
+        enabled: false,
+        webhook: '',
+        channel: ''
+      },
+      teams: {
+        enabled: false,
+        webhook: ''
+      }
+    }
   });
 
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [notifications, setNotifications] = useState([]);
+
+  // Function to update user profile
+  const updateUserProfile = (updates) => {
+    setCurrentUser(prev => ({
+      ...prev,
+      ...updates
+    }));
+  };
 
   useEffect(() => {
     // Apply OmniPanelAI workspace theme
@@ -32,8 +59,8 @@ function App() {
       ? 'hsl(222.2 84% 4.9%)' 
       : 'hsl(0 0% 100%)';
     document.body.style.color = isDarkMode 
-      ? 'hsl(210 40% 98%)' 
-      : 'hsl(222.2 84% 4.9%)';
+      ? 'hsl(0 0% 95%)' 
+      : 'hsl(222.2 84% 8%)';
   }, [isDarkMode]);
 
   // WebSocket connection for real-time notifications (optional - backend not required)
@@ -148,18 +175,20 @@ function App() {
   return (
     <div className={`min-h-screen transition-app ${isDarkMode ? 'dark' : ''}`}>
       <Router>
-        <div className="flex bg-background text-foreground text-high-contrast">
-          {/* Sidebar */}
-          <Sidebar 
-            currentUser={currentUser} 
-            isDarkMode={isDarkMode}
-            setIsDarkMode={setIsDarkMode}
-            navigationItems={navigationItems}
-          />
+        <div className="flex h-screen bg-background text-foreground text-high-contrast overflow-hidden">
+          {/* Fixed Sidebar */}
+          <div className="flex-shrink-0">
+            <Sidebar 
+              currentUser={currentUser} 
+              isDarkMode={isDarkMode}
+              setIsDarkMode={setIsDarkMode}
+              navigationItems={navigationItems}
+            />
+          </div>
           
-          {/* Main Content */}
-          <main className="flex-1 bg-background text-high-contrast">
-            <div className="bg-app-gradient min-h-screen">
+          {/* Main Content Panel - Scrollable */}
+          <main className="flex-1 overflow-y-auto bg-background text-high-contrast">
+            <div className="bg-app-gradient min-h-full">
               <Routes>
                 <Route 
                   path="/" 
@@ -189,7 +218,12 @@ function App() {
                 />
                 <Route 
                   path="/settings" 
-                  element={<SettingsPage currentUser={currentUser} />} 
+                  element={
+                    <SettingsPage 
+                      currentUser={currentUser} 
+                      updateUserProfile={updateUserProfile}
+                    />
+                  } 
                 />
               </Routes>
             </div>

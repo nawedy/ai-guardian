@@ -84,10 +84,10 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
             { date: '2025-06-17', vulnerabilities: 35, fixed: 44 }
           ],
           severityDistribution: [
-            { name: 'Critical', value: 12, color: '#ef4444' },
-            { name: 'High', value: 23, color: '#f97316' },
-            { name: 'Medium', value: 34, color: '#eab308' },
-            { name: 'Low', value: 20, color: '#22c55e' }
+            { name: 'Critical', value: 12, color: 'hsl(var(--app-error))' },
+            { name: 'High', value: 23, color: 'hsl(var(--app-warning))' },
+            { name: 'Medium', value: 34, color: 'hsl(var(--app-info))' },
+            { name: 'Low', value: 20, color: 'hsl(var(--app-success))' }
           ]
         };
         
@@ -132,28 +132,31 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'critical': return 'bg-red-100 text-red-800 border-red-200';
-      case 'high': return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'critical': return 'bg-red-500/20 text-red-300 border-red-500/30';
+      case 'high': return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
+      case 'medium': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+      case 'low': return 'bg-green-500/20 text-green-300 border-green-500/30';
+      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
     }
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full visible-text">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="flex items-center justify-center h-full text-high-contrast">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-high-contrast">Loading dashboard...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-full visible-text">
+      <div className="flex items-center justify-center h-full text-high-contrast">
         <div className="text-center">
-          <p className="text-app-error mb-4">{error}</p>
-          <p className="visible-text-muted">Running in demo mode with sample data</p>
+          <p className="text-app-error mb-4 text-high-contrast">{error}</p>
+          <p className="text-medium-contrast">Running in demo mode with sample data</p>
         </div>
       </div>
     );
@@ -164,7 +167,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold visible-text-bold">Security Dashboard</h1>
+          <h1 className="text-3xl font-bold text-high-contrast">Security Dashboard</h1>
           <p className="text-medium-contrast mt-1">
             Welcome back, {currentUser.name}. Here's your security overview.
           </p>
@@ -173,9 +176,9 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
         {/* Notifications */}
         {(notifications || []).length > 0 && (
           <div className="relative">
-            <Button variant="outline" className="relative">
+            <Button variant="outline" className="relative text-high-contrast border-border hover:bg-muted">
               <Bell className="w-4 h-4" />
-              <Badge className="absolute -top-2 -right-2 px-1 min-w-[1.25rem] h-5">
+              <Badge className="absolute -top-2 -right-2 px-1 min-w-[1.25rem] h-5 bg-primary text-primary-foreground">
                 {(notifications || []).length}
               </Badge>
             </Button>
@@ -206,7 +209,7 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => dismissNotification(notification.id)}
-                className="text-app-info hover:text-app-info/80 text-high-contrast"
+                className="text-medium-contrast hover:text-high-contrast"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -217,92 +220,109 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="theme-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Scans</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-high-contrast">Total Scans</CardTitle>
+            <Shield className="h-4 w-4 text-app-info" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{dashboardData.stats.totalScans.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl font-bold text-high-contrast">
+              {(dashboardData.stats.totalScans || 0).toLocaleString()}
+            </div>
+            <p className="text-xs text-medium-contrast">
               +12% from last month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="theme-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Vulnerabilities Found</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-high-contrast">Vulnerabilities</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-app-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{dashboardData.stats.vulnerabilitiesFound}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl font-bold text-high-contrast">
+              {(dashboardData.stats.vulnerabilitiesFound || 0).toLocaleString()}
+            </div>
+            <p className="text-xs text-medium-contrast">
               -8% from last month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="theme-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Critical Issues</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-high-contrast">Critical Issues</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-app-error" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{dashboardData.stats.criticalIssues}</div>
-            <p className="text-xs text-muted-foreground">
-              Requires immediate attention
+            <div className="text-2xl font-bold text-high-contrast">
+              {(dashboardData.stats.criticalIssues || 0).toLocaleString()}
+            </div>
+            <p className="text-xs text-medium-contrast">
+              -15% from last month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="theme-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Issues Fixed</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-high-contrast">Fixed Issues</CardTitle>
+            <CheckCircle className="h-4 w-4 text-app-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{dashboardData.stats.fixedIssues}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl font-bold text-high-contrast">
+              {(dashboardData.stats.fixedIssues || 0).toLocaleString()}
+            </div>
+            <p className="text-xs text-medium-contrast">
               +23% from last month
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts Row */}
+      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Vulnerability Trends */}
-        <Card>
+        <Card className="theme-card">
           <CardHeader>
-            <CardTitle>Vulnerability Trends</CardTitle>
-            <CardDescription>
-              Daily vulnerability detection and resolution over the past week
+            <CardTitle className="text-high-contrast">Vulnerability Trends</CardTitle>
+            <CardDescription className="text-medium-contrast">
+              Daily vulnerability detection and resolution
             </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dashboardData.vulnerabilityTrends || []}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis 
                   dataKey="date" 
-                  tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
                 />
-                <YAxis />
+                <YAxis 
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                />
                 <Tooltip 
-                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px',
+                    color: 'hsl(var(--card-foreground))'
+                  }}
                 />
                 <Line 
                   type="monotone" 
                   dataKey="vulnerabilities" 
-                  stroke="#ef4444" 
+                  stroke="hsl(var(--app-error))" 
                   strokeWidth={2}
                   name="Found"
                 />
                 <Line 
                   type="monotone" 
                   dataKey="fixed" 
-                  stroke="#22c55e" 
+                  stroke="hsl(var(--app-success))" 
                   strokeWidth={2}
                   name="Fixed"
                 />
@@ -312,11 +332,11 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
         </Card>
 
         {/* Severity Distribution */}
-        <Card>
+        <Card className="theme-card">
           <CardHeader>
-            <CardTitle>Severity Distribution</CardTitle>
-            <CardDescription>
-              Current vulnerability breakdown by severity level
+            <CardTitle className="text-high-contrast">Severity Distribution</CardTitle>
+            <CardDescription className="text-medium-contrast">
+              Current vulnerability breakdown by severity
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -336,7 +356,14 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px',
+                    color: 'hsl(var(--card-foreground))'
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
@@ -344,45 +371,46 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
       </div>
 
       {/* Recent Scans */}
-      <Card>
+      <Card className="theme-card">
         <CardHeader>
-          <CardTitle>Recent Scans</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-high-contrast">Recent Scans</CardTitle>
+          <CardDescription className="text-medium-contrast">
             Latest security scans and their results
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {(dashboardData.recentScans || []).map((scan) => (
-              <div
-                key={scan.id}
-                className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted transition-app theme-card"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg">
-                    <FileText className="w-5 h-5 text-primary" />
+            {(dashboardData.recentScans || []).length === 0 ? (
+              <p className="text-center text-medium-contrast py-8">No recent scans available</p>
+            ) : (
+              (dashboardData.recentScans || []).map((scan) => (
+                <div
+                  key={scan.id}
+                  className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-app"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center justify-center w-10 h-10 bg-app-info/20 rounded-lg">
+                      <FileText className="w-5 h-5 text-app-info" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-high-contrast">{scan.filename}</p>
+                      <p className="text-sm text-medium-contrast">
+                        {formatTimeAgo(scan.timestamp)} • {scan.vulnerabilities} issues found
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-medium text-high-contrast">{scan.filename}</h4>
-                    <p className="text-sm text-medium-contrast">
-                      Scanned {formatTimeAgo(scan.timestamp)}
-                    </p>
+                  
+                  <div className="flex items-center space-x-3">
+                    <Badge className={getSeverityColor(scan.severity)}>
+                      {scan.severity}
+                    </Badge>
+                    <Badge variant="outline" className="text-high-contrast border-border">
+                      {scan.status}
+                    </Badge>
                   </div>
                 </div>
-                
-                <div className="flex items-center space-x-3">
-                  <Badge className={getSeverityColor(scan.severity)}>
-                    {scan.severity}
-                  </Badge>
-                  <span className="text-sm text-medium-contrast">
-                    {scan.vulnerabilities} issues
-                  </span>
-                  <Badge variant="outline" className="text-green-600 border-green-200">
-                    {scan.status}
-                  </Badge>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </CardContent>
       </Card>
