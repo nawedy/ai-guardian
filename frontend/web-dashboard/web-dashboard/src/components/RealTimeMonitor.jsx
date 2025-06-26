@@ -247,7 +247,12 @@ const RealTimeMonitor = ({ currentUser }) => {
   useEffect(() => {
     const connectWebSocket = () => {
       try {
-        const ws = new WebSocket('ws://localhost:8765');
+        // Use production WebSocket endpoint
+        const isDevelopment = import.meta.env.MODE === 'development';
+        const wsUrl = isDevelopment 
+          ? 'ws://localhost:8765/' 
+          : 'wss://ai-guardian-code-scanner.onrender.com/ws';
+        const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
         
         ws.onopen = () => {

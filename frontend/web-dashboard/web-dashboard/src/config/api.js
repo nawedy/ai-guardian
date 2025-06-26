@@ -160,4 +160,171 @@ export const {
   REMEDIATION_ENGINE_URL,
   ADAPTIVE_LEARNING_URL,
   WEBSOCKET_URL
-} = API_CONFIG; 
+} = API_CONFIG;
+
+// API Configuration for AI Guardian
+const isDevelopment = import.meta.env.MODE === 'development';
+
+// Production API endpoints on Render
+const PRODUCTION_ENDPOINTS = {
+  API_GATEWAY: 'https://ai-guardian-api-gateway.onrender.com',
+  CODE_SCANNER: 'https://ai-guardian-code-scanner.onrender.com',
+  ADAPTIVE_LEARNING: 'https://adaptive-learning-service.onrender.com',
+  REMEDIATION_ENGINE: 'https://ai-guardian-remediation-engine.onrender.com'
+};
+
+// Development API endpoints (local)
+const DEVELOPMENT_ENDPOINTS = {
+  API_GATEWAY: 'http://localhost:5000',
+  CODE_SCANNER: 'http://localhost:5001',
+  ADAPTIVE_LEARNING: 'http://localhost:5003',
+  REMEDIATION_ENGINE: 'http://localhost:5005'
+};
+
+// Use production endpoints by default, fallback to development if needed
+export const API_ENDPOINTS = isDevelopment ? DEVELOPMENT_ENDPOINTS : PRODUCTION_ENDPOINTS;
+
+// WebSocket endpoints
+export const WS_ENDPOINTS = {
+  REALTIME_SCANNER: isDevelopment 
+    ? 'ws://localhost:8765/' 
+    : 'wss://ai-guardian-code-scanner.onrender.com/ws'
+};
+
+// API client configuration
+export const API_CONFIG = {
+  timeout: 30000, // 30 seconds
+  retries: 3,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+};
+
+// API client with retry logic
+export class APIClient {
+  static async request(endpoint, options = {}) {
+    const config = {
+      ...API_CONFIG.headers,
+      ...options.headers
+    };
+
+    const requestOptions = {
+      method: options.method || 'GET',
+      headers: config,
+      ...options
+    };
+
+    if (options.body && typeof options.body === 'object') {
+      requestOptions.body = JSON.stringify(options.body);
+    }
+
+    let lastError;
+    for (let attempt = 1; attempt <= API_CONFIG.retries; attempt++) {
+      try {
+        const response = await fetch(endpoint, requestOptions);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          return await response.json();
+        }
+        
+        return await response.text();
+      } catch (error) {
+        lastError = error;
+        console.warn(`API request attempt ${attempt} failed:`, error);
+        
+        if (attempt < API_CONFIG.retries) {
+          // Exponential backoff
+          await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+        }
+      }
+    }
+
+    throw lastError;
+  }
+
+  static async get(endpoint, options = {}) {
+    return this.request(endpoint, { ...options, method: 'GET' });
+  }
+
+  static async post(endpoint, data, options = {}) {
+    return this.request(endpoint, { 
+      ...options, 
+      method: 'POST', 
+      body: data 
+    });
+  }
+
+  static async put(endpoint, data, options = {}) {
+    return this.request(endpoint, { 
+      ...options, 
+      method: 'PUT', 
+      body: data 
+    });
+  }
+
+  static async delete(endpoint, options = {}) {
+    return this.request(endpoint, { ...options, method: 'DELETE' });
+  }
+}
+
+// Service-specific API functions
+export const apiService = {
+  // Health checks
+  async checkHealth() {
+    const healthChecks = await Promise.allSettled([
+      APIClient.get(`${API_ENDPOINTS.API_GATEWAY}/health`),
+      APIClient.get(`${API_ENDPOINTS.CODE_SCANNER}/health`),
+      APIClient.get(`${API_ENDPOINTS.ADAPTIVE_LEARNING}/health`),
+      APIClient.get(`${API_ENDPOINTS.REMEDIATION_ENGINE}/health`)
+    ]);
+
+    return {
+      apiGateway: healthChecks[0].status === 'fulfilled' ? healthChecks[0].value : null,
+      codeScanner: healthChecks[1].status === 'fulfilled' ? healthChecks[1].value : null,
+      adaptiveLearning: healthChecks[2].status === 'fulfilled' ? healthChecks[2].value : null,
+      remediationEngine: healthChecks[3].status === 'fulfilled' ? healthChecks[3].value : null
+    };
+  },
+
+  // Code scanning
+  async scanCode(code, language) {
+    return APIClient.post(`${API_ENDPOINTS.CODE_SCANNER}/api/scan`, {
+      code,
+      language,
+      timestamp: new Date().toISOString()
+    });
+  },
+
+  // Get scan results
+  async getScanResults(scanId) {
+    return APIClient.get(`${API_ENDPOINTS.CODE_SCANNER}/api/scan/${scanId}`);
+  },
+
+  // Get dashboard data
+  async getDashboardData() {
+    return APIClient.get(`${API_ENDPOINTS.API_GATEWAY}/api/dashboard`);
+  },
+
+  // User management
+  async getUser(userId) {
+    return APIClient.get(`${API_ENDPOINTS.API_GATEWAY}/api/user/${userId}`);
+  },
+
+  // Learning recommendations
+  async getLearningRecommendations(userId) {
+    return APIClient.get(`${API_ENDPOINTS.ADAPTIVE_LEARNING}/api/recommendations/${userId}`);
+  },
+
+  // Remediation suggestions
+  async getRemediationSuggestions(vulnerabilityId) {
+    return APIClient.get(`${API_ENDPOINTS.REMEDIATION_ENGINE}/api/remediation/${vulnerabilityId}`);
+  }
+};
+
+export default apiService; 
