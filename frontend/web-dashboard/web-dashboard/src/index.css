@@ -315,16 +315,17 @@
     outline: 2px solid hsl(var(--ring) / 0.2);
   }
 
-  /* Dramatic Neomorphism card effect for strong lift */
+  /* Dramatic Neomorphism card effect for strong lift, theme-aware */
   .neomorph-card {
     background: hsl(var(--card));
     border-radius: 1.5rem;
+    /* Light mode: deep/dark shadow below, subtle highlight above */
     box-shadow:
-      0 16px 48px 0 hsl(var(--background) / 0.45), /* deep shadow */
-      0 2px 24px 0 hsl(var(--app-accent) / 0.18),   /* accent glow */
-      0 -4px 12px 0 hsl(var(--foreground) / 0.10),  /* top highlight */
-      0 1.5px 8px 0 hsl(var(--foreground) / 0.12),
-      0 0.5px 2px 0 hsl(var(--background) / 0.10) inset;
+      0 16px 48px 0 rgba(0,0,0,0.22), /* deep shadow */
+      0 2px 24px 0 hsl(var(--app-accent) / 0.12),   /* accent glow */
+      0 -4px 12px 0 rgba(255,255,255,0.18),  /* top highlight */
+      0 1.5px 8px 0 rgba(0,0,0,0.10),
+      0 0.5px 2px 0 rgba(0,0,0,0.08) inset;
     border: none !important;
     transition: box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), background 0.2s cubic-bezier(0.4,0,0.2,1);
     position: relative;
@@ -332,13 +333,33 @@
   }
   .neomorph-card:hover {
     box-shadow:
-      0 24px 72px 0 hsl(var(--background) / 0.60),
-      0 4px 32px 0 hsl(var(--app-accent) / 0.22),
-      0 -6px 18px 0 hsl(var(--foreground) / 0.16),
-      0 2.5px 16px 0 hsl(var(--foreground) / 0.16),
-      0 1px 4px 0 hsl(var(--background) / 0.14) inset;
+      0 24px 72px 0 rgba(0,0,0,0.32),
+      0 4px 32px 0 hsl(var(--app-accent) / 0.18),
+      0 -6px 18px 0 rgba(255,255,255,0.22),
+      0 2.5px 16px 0 rgba(0,0,0,0.14),
+      0 1px 4px 0 rgba(0,0,0,0.10) inset;
     background: hsl(var(--muted) / 1);
     outline: 2px solid hsl(var(--app-accent) / 0.18);
+    outline-offset: 2px;
+  }
+  .dark .neomorph-card {
+    /* Dark mode: light shadow below, dark highlight above */
+    box-shadow:
+      0 16px 48px 0 rgba(255,255,255,0.13), /* light shadow */
+      0 2px 24px 0 hsl(var(--app-accent) / 0.10),   /* accent glow */
+      0 -4px 12px 0 rgba(0,0,0,0.22),  /* top dark highlight */
+      0 1.5px 8px 0 rgba(255,255,255,0.10),
+      0 0.5px 2px 0 rgba(255,255,255,0.08) inset;
+  }
+  .dark .neomorph-card:hover {
+    box-shadow:
+      0 24px 72px 0 rgba(255,255,255,0.22),
+      0 4px 32px 0 hsl(var(--app-accent) / 0.16),
+      0 -6px 18px 0 rgba(0,0,0,0.28),
+      0 2.5px 16px 0 rgba(255,255,255,0.14),
+      0 1px 4px 0 rgba(255,255,255,0.10) inset;
+    background: hsl(var(--muted) / 1);
+    outline: 2px solid hsl(var(--app-accent) / 0.22);
     outline-offset: 2px;
   }
 
