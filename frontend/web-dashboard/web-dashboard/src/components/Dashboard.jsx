@@ -9,7 +9,8 @@ import {
   Users,
   Activity,
   Bell,
-  X
+  X,
+  GlobeIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -370,50 +371,155 @@ const Dashboard = ({ currentUser, notifications = [], setNotifications = () => {
         </Card>
       </div>
 
-      {/* Recent Scans */}
-      <Card className="theme-card">
-        <CardHeader>
-          <CardTitle className="text-high-contrast">Recent Scans</CardTitle>
-          <CardDescription className="text-medium-contrast">
-            Latest security scans and their results
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {(dashboardData.recentScans || []).length === 0 ? (
-              <p className="text-center text-medium-contrast py-8">No recent scans available</p>
-            ) : (
-              (dashboardData.recentScans || []).map((scan) => (
-                <div
-                  key={scan.id}
-                  className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-app"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-app-info/20 rounded-lg">
-                      <FileText className="w-5 h-5 text-app-info" />
+      {/* Recent Scans, Org Threats, Global Threats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Recent Scans */}
+        <Card className="theme-card">
+          <CardHeader>
+            <CardTitle className="text-high-contrast">Recent Scans</CardTitle>
+            <CardDescription className="text-medium-contrast">
+              Latest security scans and their results
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {(dashboardData.recentScans || []).length === 0 ? (
+                <p className="text-center text-medium-contrast py-8">No recent scans available</p>
+              ) : (
+                (dashboardData.recentScans || []).map((scan) => (
+                  <div
+                    key={scan.id}
+                    className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-app"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center justify-center w-10 h-10 bg-app-info/20 rounded-lg">
+                        <FileText className="w-5 h-5 text-app-info" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-high-contrast">{scan.filename}</p>
+                        <p className="text-sm text-medium-contrast">
+                          {formatTimeAgo(scan.timestamp)} • {scan.vulnerabilities} issues found
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-high-contrast">{scan.filename}</p>
-                      <p className="text-sm text-medium-contrast">
-                        {formatTimeAgo(scan.timestamp)} • {scan.vulnerabilities} issues found
-                      </p>
+                    <div className="flex items-center space-x-3">
+                      <Badge className={getSeverityColor(scan.severity)}>
+                        {scan.severity}
+                      </Badge>
+                      <Badge variant="outline" className="text-high-contrast border-border">
+                        {scan.status}
+                      </Badge>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center space-x-3">
-                    <Badge className={getSeverityColor(scan.severity)}>
-                      {scan.severity}
-                    </Badge>
-                    <Badge variant="outline" className="text-high-contrast border-border">
-                      {scan.status}
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Org Threats */}
+        <Card className="theme-card">
+          <CardHeader>
+            <CardTitle className="text-high-contrast">Newly Found Threats in Your Organization</CardTitle>
+            <CardDescription className="text-medium-contrast">
+              Most recent critical and high vulnerabilities detected
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {(() => {
+                // Filter for critical/high vulnerabilities from recent scans
+                const orgThreats = (dashboardData.recentScans || [])
+                  .filter(scan => ['critical', 'high'].includes((scan.severity || '').toLowerCase()))
+                  .slice(0, 5);
+                if (orgThreats.length === 0) {
+                  return <p className="text-center text-medium-contrast py-8">No new critical or high threats found</p>;
+                }
+                return orgThreats.map((threat) => (
+                  <div key={threat.id} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-app-error/10 transition-app">
+                    <div className="flex items-center space-x-4">
+                      <AlertTriangle className="w-6 h-6 text-app-error" />
+                      <div>
+                        <p className="font-medium text-high-contrast">{threat.filename}</p>
+                        <p className="text-sm text-medium-contrast">
+                          {formatTimeAgo(threat.timestamp)} • Severity: <span className="capitalize">{threat.severity}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <Badge className={getSeverityColor(threat.severity)}>
+                      {threat.severity}
                     </Badge>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
-        </CardContent>
-      </Card>
+                ));
+              })()}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Global Threats */}
+        <Card className="theme-card">
+          <CardHeader>
+            <CardTitle className="text-high-contrast">Newly Identified Threats Around the World</CardTitle>
+            <CardDescription className="text-medium-contrast">
+              Global threat intelligence (last 24h)
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {(() => {
+                // Mock global threats data
+                const globalThreats = [
+                  {
+                    id: 'global_001',
+                    type: 'Zero-Day Exploit',
+                    severity: 'critical',
+                    date: new Date(Date.now() - 1000 * 60 * 60 * 2),
+                    description: 'Critical zero-day vulnerability in widely used web server software. CVE-2025-12345.'
+                  },
+                  {
+                    id: 'global_002',
+                    type: 'Ransomware Campaign',
+                    severity: 'high',
+                    date: new Date(Date.now() - 1000 * 60 * 60 * 5),
+                    description: 'Large-scale ransomware attacks targeting cloud storage providers.'
+                  },
+                  {
+                    id: 'global_003',
+                    type: 'Supply Chain Attack',
+                    severity: 'high',
+                    date: new Date(Date.now() - 1000 * 60 * 60 * 8),
+                    description: 'Malicious package discovered in popular open-source library.'
+                  },
+                  {
+                    id: 'global_004',
+                    type: 'Phishing Campaign',
+                    severity: 'medium',
+                    date: new Date(Date.now() - 1000 * 60 * 60 * 12),
+                    description: 'Sophisticated phishing emails targeting financial institutions.'
+                  }
+                ];
+                return globalThreats.map((threat) => (
+                  <div key={threat.id} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-app-warning/10 transition-app">
+                    <div className="flex items-center space-x-4">
+                      <GlobeIcon className="w-6 h-6 text-app-warning" />
+                      <div>
+                        <p className="font-medium text-high-contrast">{threat.type}</p>
+                        <p className="text-sm text-medium-contrast">
+                          {formatTimeAgo(threat.date)} • Severity: <span className="capitalize">{threat.severity}</span>
+                        </p>
+                        <p className="text-xs text-medium-contrast mt-1">{threat.description}</p>
+                      </div>
+                    </div>
+                    <Badge className={getSeverityColor(threat.severity)}>
+                      {threat.severity}
+                    </Badge>
+                  </div>
+                ));
+              })()}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
